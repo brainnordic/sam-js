@@ -1,4 +1,5 @@
 #!/usr/bin/env node
-import { foo } from './main'
+import { BrainSam } from './main'
 
-foo()
+const g = new BrainSam('aaaa bbb');
+g.greet()
