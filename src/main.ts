@@ -8,12 +8,16 @@ export class BrainSam {
   data_layer: any;
 
   constructor(data: any) {
-    this.data_layer = new DataLayerHelper(data)
     let that = this;
-    this.data_layer.registerProcessor('event', function(event_name, data) { that.event(event_name, data) });
-    this.data_layer.registerProcessor('plugin', function(plugin_function) { 
-      plugin_function(that.data_layer);
-    });
+    this.data_layer = new DataLayerHelper(data, {
+      commandProcessors: {
+        'event': [function(event_name, data) { that.event(event_name, data) }],
+        'plugin': [function(plugin_function) { plugin_function(that.data_layer) }]
+      },
+      processNow: false
+    })
+
+    this.data_layer.process()
   }
 
   event(event_name: string, obj?: any, callback?: () => void) {
