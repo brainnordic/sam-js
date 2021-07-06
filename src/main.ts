@@ -1,38 +1,33 @@
 import Cookies from "js-cookie";
 import { v4 as uuid } from 'uuid';
 import qs from 'qs';
-
-export const delayMillis = (delayMs: number): Promise<void> => new Promise(resolve => setTimeout(resolve, delayMs));
-
-export const greet = (name: string): string => `Hello ${name}`
-
-export const foo = async (): Promise<boolean> => {
-  console.log(greet('World'))
-  await delayMillis(1000)
-  console.log('done')
-  return true
-}
+import {DataLayerHelper} from "./datalayer";
 
 export class BrainSam {
   static pixel_url = "https://mkt.dep-x.com/d3p_e.gif"
-  #greeting: string;
+  data_layer: any;
 
-  constructor(message: string) {
-    this.#greeting = message;
+  constructor(data: any) {
+    this.data_layer = new DataLayerHelper(data)
+    let that = this;
+    this.data_layer.registerProcessor('event', function(event_name, data) { that.event(event_name, data) });
+    this.data_layer.registerProcessor('plugin', function(plugin_function) { 
+      plugin_function(that.data_layer);
+    });
   }
 
   event(event_name: string, obj?: any, callback?: () => void) {
     this.setupDepCookie();
-    obj = obj || {};
-    obj.n = event_name;
-    obj.l_u = this.setupDepCookie();
-    obj.p_d = window.location.host;
-    obj.p_l = window.location.href;
-    obj.p_r = document.referrer;
-    obj.dp_r = window.devicePixelRatio;
-    obj.p_h = Math.min(window.screen.height, 30000)
-    obj.p_w = Math.min(window.screen.width, 30000)
-    this.pixel(obj, callback)
+    let data = Object.assign({}, obj || {}, this.data_layer.get('user') || {});
+    data.n = event_name;
+    data.l_u = this.setupDepCookie();
+    data.p_d = window.location.host;
+    data.p_l = window.location.href;
+    data.p_r = document.referrer;
+    data.dp_r = window.devicePixelRatio;
+    data.p_h = Math.min(window.screen.height, 30000)
+    data.p_w = Math.min(window.screen.width, 30000)
+    this.pixel(data, callback)
   }
 
   pixel(data: any, callback?: () => void) {
@@ -51,13 +46,5 @@ export class BrainSam {
     }
 
     return cookie_id
-  }
-
-  greet() {
-    let queryString = qs.stringify({page: "1", pagesize: "100"});
-
-     console.log("Hello, " + this.#greeting);
-     console.log(Cookies.get("dep"));
-     console.log(queryString)
   }
 }
