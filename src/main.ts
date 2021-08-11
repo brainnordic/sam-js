@@ -6,6 +6,7 @@ import {DataLayerHelper} from "./datalayer";
 export class BrainSam {
   static pixel_url = "https://mkt.dep-x.com/d3p_e.gif"
   data_layer: any;
+  config: any;
 
   constructor(data: any) {
     let that = this;
@@ -18,12 +19,33 @@ export class BrainSam {
     })
 
     this.data_layer.process()
+
+    if(this.getConfig().autoview) {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', this.pageView);
+      } else {
+        this.pageView()
+      }
+    }
+  }
+
+  pageView(){
+    this.event('pageview')
+  }
+
+  getConfig(){
+    return this.data_layer.get('config') || {}
   }
 
   event(event_name: string, obj?: any, callback?: () => void) {
     this.setupDepCookie();
     let data = Object.assign({}, obj || {}, this.data_layer.get('user') || {});
-    data.n = event_name;
+    if(this.getConfig().sam_id) {
+      data.n = this.getConfig().sam_id;
+      data.e = event_name;
+    } else {
+      data.n = event_name;
+    }
     data.l_u = this.setupDepCookie();
     data.p_d = window.location.host;
     data.p_l = window.location.href;

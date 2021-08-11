@@ -2,12 +2,13 @@
   <head>
     <script type="text/javascript">
       window.sam_data = []
-      sam_data.push({user: {test_data: '111'}})
+      sam_data.push({config: {sam_id: 'safdsaf', autoview: false}})
+      sam_data.push({user: {test_data: '111', zipcode: '12345'}})
       sam_data.push({event: 'page_view'})
-      sam_data.push({event: 'custom_event', extra_data: 'aaa'})
+      sam_data.push({event: 'custom_event', e_t: 'conversion'})
     </script>
     <script src="./dist/esbuild/sam.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/brain-sam-js@0.0.2/dist/esbuild/sam.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/brain-sam-js@0.0.3/dist/esbuild/sam.min.js"></script> -->
   </head>
   <body>
     Open the devtools 👇
