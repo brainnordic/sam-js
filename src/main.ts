@@ -7,30 +7,64 @@ export class BrainSam {
   static pixel_url = "https://mkt.dep-x.com/d3p_e.gif"
   data_layer: any;
   config: any;
+  last_observable_value: string | undefined = undefined;
+  interval: any;
 
   constructor(data: any) {
     let that = this;
-    this.data_layer = new DataLayerHelper(data, {
-      commandProcessors: {
-        'event': [function(event_name, data) { that.event(event_name, data) }],
-        'plugin': [function(plugin_function) { plugin_function(that.data_layer) }]
-      },
-      processNow: false
-    })
+    if(!data.installed) {
+      data.installed = true
+      this.data_layer = new DataLayerHelper(data, {
+        commandProcessors: {
+          'event': [function(event_name, data) { that.event(event_name, data) }],
+          'plugin': [function(plugin_function) { plugin_function(that.data_layer) }]
+        },
+        processNow: false
+      })
 
-    this.data_layer.process()
+      this.data_layer.process()
 
-    if(this.getConfig().autoview) {
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', this.pageView);
-      } else {
-        this.pageView()
+      if(typeof this.getConfig().autoview === 'undefined' || this.getConfig().autoview) {
+        this.last_observable_value = this.getObservableValue()
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', this.pageView);
+        } else {
+          this.pageView()
+        }
       }
+
+      this.watchObservable()
     }
   }
 
   pageView(){
+    this.last_observable_value = this.getObservableValue()
     this.event('pageview')
+  }
+
+  getObservableValue(){
+    if(this.getConfig().observable == 'location'){
+      return window.location.href
+    } else if (typeof this.getConfig().observable === 'function') {
+      return this.getConfig().observable()
+    } else {
+      return undefined
+    }
+  }
+
+  watchObservable(){
+    let that = this;
+
+    if(this.getConfig().observable) {
+      this.interval = setInterval(function(){ 
+        let new_value = that.getObservableValue();
+        console.log('last_observable_value', that.getConfig().observable, Date.now(), that.last_observable_value, 'new value', new_value)
+        if(that.last_observable_value != undefined && new_value != undefined && that.last_observable_value != new_value) {
+          that.pageView()
+        }
+        that.last_observable_value = that.getObservableValue()
+       }, 100);
+    }
   }
 
   getConfig(){
