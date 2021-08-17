@@ -256,7 +256,7 @@ export class DataLayerHelper {
           log(e, LogLevel.ERROR);
         }
       } else if (isPlainObject(update)) {
-        if(update['event']) {
+        if(update['event'] && typeof update['event'] == 'string') {
           const data = (({ event, ...o }) => o)(update)
           const newStates = this.processArguments_(['event', update['event'], data])
           this.unprocessed_.push.apply(this.unprocessed_, newStates);
