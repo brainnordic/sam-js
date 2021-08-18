@@ -1,64 +1,4 @@
-# development
-
-- `yarn build-all` - builds all scripts in /dist
-- `yarn esbuild-browser:watch` - watches changes in sam.js code & builds browser version of js
-- `yarn server` - runs web server with sam.js DEMO `http://localhost:8080/browser-test.html`
-- `yarn test` - runs sam.js tests
-- `yarn docs` - builds documentation
-- `yarn publish` - publishes new version of sam.js
-
 # sam.js API
-
-## pixel api:
-
-**endpoint:** 
-
-- https://sam.dep-x.com/e.gif
-
-**data scopes:**
-
-- user prefix: **u_**
-- device/domain: **d_**
-- session: **s_**
-- event: **e_**
-- page/view/resource: **p_**
-
-**methods:**
-
-1. /e.gif?n=SAM_ID&e=EVENT_NAME….
-    1. **domain cookie:** buid=UUID
-    2. **headers stored/processed:** client_ip, referrer, user_agent, accept_language
-    3. **n** - SAM ID
-    4. **e -** event name - default **page_view**
-    5. **e_id** - event id - default **nil** - all data in events with the same id will be merged
-    6. **e_t** - event type (**navigational, nonnavigational, data, user matching**) default: **navigational** - will be counted in total page views
-    7. **p_cid**, **click_id** - click id.
-    8. **d_id -** first party cookie: dep=UUID
-    9. **d_pid** - publisher internal id, eg. pubcid
-    10. **p_d** - page domain, default: window.location.host
-    11. **p_l** - page location, default: window.location.href
-    12. **p_r -** page referrer, default: document.referrer
-    13. **p_t** - page title
-    14. **d_pr** - device pixel ratio
-    15. **d_h** - current sceen height, default: window.screen.height
-    16. **d_w** - current sceen width, default: window.screen.height
-    17. **u_zipcode -** user zipcode 
-    18. **u_email** - user email - this is sensitive data, please contact us to establish encryption method
-    19. **u_pnr** - user pnr - this is sensitive data, please contact us to establish encryption method
-    20. **d_location** - current browser location format: latitude,longitude
-    21. **s_campaign** - campaign name/id for current user session
-    22. **p_section -** page section
-    23. **e_amount** **-** conversion/event value
-    24. **e_currency** - conversion value currency, default: EUR
-    26. other/custom params: any other parameter with proper prefix (u_, d_, s_, p_, e_) will be stored in db for future usage, supported data types:
-        1. integer
-        2. float
-        3. string (max 100 chars) [category/true/false etc]
-        4. array of strings: [‘abc’, ‘def’, ‘xyz’] (maximum 20 elements, each max 20 chars)
-        5. date - YYYY-MM-DD
-        6. time - HH:MM(:SS) eg. 23:12, 12:34:01
-
-
 
 ## js api:
     <script type="text/javascript">
@@ -164,4 +104,60 @@ By registering data layer listener you can modify/expand input data before is in
     } })
     </script>
 
+## pixel api:
 
+**endpoint:** 
+
+- https://sam.dep-x.com/e.gif
+
+**data scopes:**
+
+- user prefix: **u_**
+- device/domain: **d_**
+- session: **s_**
+- event: **e_**
+- page/view/resource: **p_**
+
+**methods:**
+
+1. /e.gif?n=SAM_ID&e=EVENT_NAME….
+    1. **domain cookie:** buid=UUID
+    2. **headers stored/processed:** client_ip, referrer, user_agent, accept_language
+    3. **n** - SAM ID
+    4. **e -** event name - default **page_view**
+    5. **e_id** - event id - default **nil** - all data in events with the same id will be merged
+    6. **e_t** - event type (**navigational, nonnavigational, data, user matching**) default: **navigational** - will be counted in total page views
+    7. **p_cid**, **click_id** - click id.
+    8. **d_id -** first party cookie: dep=UUID
+    9. **d_pid** - publisher internal id, eg. pubcid
+    10. **p_d** - page domain, default: window.location.host
+    11. **p_l** - page location, default: window.location.href
+    12. **p_r -** page referrer, default: document.referrer
+    13. **p_t** - page title
+    14. **d_pr** - device pixel ratio
+    15. **d_h** - current sceen height, default: window.screen.height
+    16. **d_w** - current sceen width, default: window.screen.height
+    17. **u_zipcode -** user zipcode 
+    18. **u_email** - user email - this is sensitive data, please contact us to establish encryption method
+    19. **u_pnr** - user pnr - this is sensitive data, please contact us to establish encryption method
+    20. **d_location** - current browser location format: latitude,longitude
+    21. **s_campaign** - campaign name/id for current user session
+    22. **p_section -** page section
+    23. **e_amount** **-** conversion/event value
+    24. **e_currency** - conversion value currency, default: EUR
+    26. other/custom params: any other parameter with proper prefix (u_, d_, s_, p_, e_) will be stored in db for future usage, supported data types:
+        1. integer
+        2. float
+        3. string (max 100 chars) [category/true/false etc]
+        4. array of strings: [‘abc’, ‘def’, ‘xyz’] (maximum 20 elements, each max 20 chars)
+        5. date - YYYY-MM-DD
+        6. time - HH:MM(:SS) eg. 23:12, 12:34:01
+
+# development
+
+- `yarn build-all` - builds all scripts in /dist
+- `yarn esbuild-browser:watch` - watches changes in sam.js code & builds browser version of js
+- `yarn server` - runs web server with sam.js DEMO `http://localhost:8080/browser-test.html`
+- `yarn test` - runs sam.js tests
+- `yarn docs` - builds documentation
+- `yarn publish` - publishes new version of sam.js

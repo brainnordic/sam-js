@@ -1,0 +1,267 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>brain-sam-js</title>
+	<meta name="description" content="Documentation for brain-sam-js">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">brain-sam-js</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>brain-sam-js</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#development" id="development" style="color: inherit; text-decoration: none;">
+					<h1>development</h1>
+				</a>
+				<ul>
+					<li><code>yarn build-all</code> - builds all scripts in /dist</li>
+					<li><code>yarn esbuild-browser:watch</code> - watches changes in sam.js code &amp; builds browser version of js</li>
+					<li><code>yarn server</code> - runs web server with sam.js DEMO <code>http://localhost:8080/browser-test.html</code></li>
+					<li><code>yarn test</code> - runs sam.js tests</li>
+					<li><code>yarn docs</code> - builds documentation</li>
+					<li><code>yarn publish</code> - publishes new version of sam.js</li>
+				</ul>
+				<a href="#samjs-api" id="samjs-api" style="color: inherit; text-decoration: none;">
+					<h1>sam.js API</h1>
+				</a>
+				<a href="#pixel-api" id="pixel-api" style="color: inherit; text-decoration: none;">
+					<h2>pixel api:</h2>
+				</a>
+				<p><strong>endpoint:</strong> </p>
+				<ul>
+					<li><a href="https://sam.dep-x.com/e.gif">https://sam.dep-x.com/e.gif</a></li>
+				</ul>
+				<p><strong>data scopes:</strong></p>
+				<ul>
+					<li>user prefix: <strong>u_</strong></li>
+					<li>device/domain: <strong>d_</strong></li>
+					<li>session: <strong>s_</strong></li>
+					<li>event: <strong>e_</strong></li>
+					<li>page/view/resource: <strong>p_</strong></li>
+				</ul>
+				<p><strong>methods:</strong></p>
+				<ol>
+					<li>/e.gif?n=SAM_ID&amp;e=EVENT_NAME….<ol>
+							<li><strong>domain cookie:</strong> buid=UUID</li>
+							<li><strong>headers stored/processed:</strong> client_ip, referrer, user_agent, accept_language</li>
+							<li><strong>n</strong> - SAM ID</li>
+							<li><strong>e -</strong> event name - default <strong>page_view</strong></li>
+							<li><strong>e_id</strong> - event id - default <strong>nil</strong> - all data in events with the same id will be merged</li>
+							<li><strong>e_t</strong> - event type (<strong>navigational, nonnavigational, data, user matching</strong>) default: <strong>navigational</strong> - will be counted in total page views</li>
+							<li><strong>p_cid</strong>, <strong>click_id</strong> - click id.</li>
+							<li><strong>d_id -</strong> first party cookie: dep=UUID</li>
+							<li><strong>d_pid</strong> - publisher internal id, eg. pubcid</li>
+							<li><strong>p_d</strong> - page domain, default: window.location.host</li>
+							<li><strong>p_l</strong> - page location, default: window.location.href</li>
+							<li><strong>p_r -</strong> page referrer, default: document.referrer</li>
+							<li><strong>p_t</strong> - page title</li>
+							<li><strong>d_pr</strong> - device pixel ratio</li>
+							<li><strong>d_h</strong> - current sceen height, default: window.screen.height</li>
+							<li><strong>d_w</strong> - current sceen width, default: window.screen.height</li>
+							<li><strong>u_zipcode -</strong> user zipcode </li>
+							<li><strong>u_email</strong> - user email - this is sensitive data, please contact us to establish encryption method</li>
+							<li><strong>u_pnr</strong> - user pnr - this is sensitive data, please contact us to establish encryption method</li>
+							<li><strong>d_location</strong> - current browser location format: latitude,longitude</li>
+							<li><strong>s_campaign</strong> - campaign name/id for current user session</li>
+							<li><strong>p_section -</strong> page section</li>
+							<li><strong>e_amount</strong> <strong>-</strong> conversion/event value</li>
+							<li><strong>e_currency</strong> - conversion value currency, default: EUR</li>
+							<li>other/custom params: any other parameter with proper prefix (u_, d_, s_, p_, e_) will be stored in db for future usage, supported data types:<ol>
+									<li>integer</li>
+									<li>float</li>
+									<li>string (max 100 chars) [category/true/false etc]</li>
+									<li>array of strings: [‘abc’, ‘def’, ‘xyz’] (maximum 20 elements, each max 20 chars)</li>
+									<li>date - YYYY-MM-DD</li>
+									<li>time - HH:MM(:SS) eg. 23:12, 12:34:01</li>
+								</ol>
+							</li>
+						</ol>
+					</li>
+				</ol>
+				<a href="#js-api" id="js-api" style="color: inherit; text-decoration: none;">
+					<h2>js api:</h2>
+				</a>
+				<pre><code><span style="color: #000000">&lt;</span><span style="color: #001080">script</span><span style="color: #000000"> </span><span style="color: #001080">type</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;text/javascript&quot;</span><span style="color: #000000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #001080">window</span><span style="color: #000000">.</span><span style="color: #001080">sam_data</span><span style="color: #000000"> = []</span>
+<span style="color: #000000">  </span><span style="color: #001080">sam_data</span><span style="color: #000000">.</span><span style="color: #795E26">push</span><span style="color: #000000">({</span><span style="color: #001080">config:</span><span style="color: #000000"> {</span><span style="color: #001080">sam_id:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;abcdef&#039;</span><span style="color: #000000">})</span>
+<span style="color: #000000">&lt;/</span><span style="color: #001080">script</span><span style="color: #000000">&gt;</span>
+<span style="color: #000000">&lt;</span><span style="color: #001080">script</span><span style="color: #000000"> </span><span style="color: #001080">src</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;https://cdn.jsdelivr.net/npm/brain-sam-js@0.0.3/dist/esbuild/sam.min.js&quot;</span><span style="color: #000000">&gt;&lt;/</span><span style="color: #267F99">script</span><span style="color: #000000">&gt;</span>
+</code></pre>
+				<p><strong>config options:</strong></p>
+				<pre><code><span style="color: #000000">- **</span><span style="color: #001080">sam_id</span><span style="color: #000000">** - </span><span style="color: #001080">id</span><span style="color: #000000"> </span><span style="color: #0000FF">of</span><span style="color: #000000"> </span><span style="color: #001080">master</span><span style="color: #000000"> </span><span style="color: #001080">sam</span>
+<span style="color: #000000">- **</span><span style="color: #001080">autoview</span><span style="color: #000000">** - </span><span style="color: #0000FF">true</span><span style="color: #000000">/</span><span style="color: #0000FF">false</span><span style="color: #000000"> - </span><span style="color: #001080">trigger</span><span style="color: #000000"> </span><span style="color: #001080">page</span><span style="color: #000000"> </span><span style="color: #001080">view</span><span style="color: #000000"> </span><span style="color: #001080">on</span><span style="color: #000000"> </span><span style="color: #001080">load</span><span style="color: #000000">, </span><span style="color: #AF00DB">default</span><span style="color: #000000">: </span><span style="color: #0000FF">true</span>
+<span style="color: #000000">- **</span><span style="color: #001080">observable</span><span style="color: #000000">** - </span><span style="color: #0000FF">undefined</span><span style="color: #000000">/</span><span style="color: #001080">location</span><span style="color: #000000">/</span><span style="color: #0000FF">function</span><span style="color: #000000"> - </span><span style="color: #795E26">trigger</span><span style="color: #000000"> </span><span style="color: #795E26">page</span><span style="color: #000000"> </span><span style="color: #795E26">view</span><span style="color: #000000"> </span><span style="color: #795E26">on</span><span style="color: #000000"> </span><span style="color: #795E26">each</span><span style="color: #000000"> `</span><span style="color: #795E26">observable</span><span style="color: #000000">` </span><span style="color: #795E26">value</span><span style="color: #000000"> </span><span style="color: #795E26">change</span><span style="color: #000000">, </span><span style="color: #795E26">default</span><span style="color: #000000">: </span><span style="color: #795E26">undefined</span>
+</code></pre>
+				<p><strong>data layer:</strong></p>
+				<ul>
+					<li>any code on page can add extra data to internal data layer to send with sam pixel, if data will be present in data layer it will be added to all next events</li>
+				</ul>
+				<ul>
+					<li><strong>Example:</strong><pre><code><span style="color: #000000">  &lt;</span><span style="color: #001080">script</span><span style="color: #000000"> </span><span style="color: #001080">type</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;text/javascript&quot;</span><span style="color: #000000">&gt;</span>
+<span style="color: #000000">    </span><span style="color: #001080">sam_data</span><span style="color: #000000">.</span><span style="color: #795E26">push</span><span style="color: #000000">({</span><span style="color: #001080">user:</span><span style="color: #000000"> {</span><span style="color: #001080">zipcode:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;12345&#039;</span><span style="color: #000000">}) </span><span style="color: #008000">// puts data in internal data layer - it will be added to all events sent in current view session</span>
+<span style="color: #000000">    </span><span style="color: #001080">sam_data</span><span style="color: #000000">.</span><span style="color: #795E26">push</span><span style="color: #000000">({</span><span style="color: #001080">event:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;order_completed&#039;</span><span style="color: #000000">, </span><span style="color: #001080">e_t:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;conversion&#039;</span><span style="color: #000000">})</span>
+<span style="color: #000000">  &lt;/</span><span style="color: #001080">script</span><span style="color: #000000">&gt;</span>
+</code></pre>
+					</li>
+				</ul>
+				<ul>
+					<li><strong>Example2</strong>  <script type="text/javascript">
+    window.sam_data = []
+    sam_data.push({config: {sam_id: 'safdsaf'})
+    sam_data.push({p_section: 'sport', d_pid: window.pubcid})
+  </script>
+					<script src="https://cdn.jsdelivr.net/npm/brain-sam-js@0.0.3/dist/esbuild/sam.min.js"></script></li>
+				</ul>
+				<p><strong>Sending events:</strong>
+				By default page view event is sent when sam.js is loaded, it can be changed with config value:</p>
+				<pre><code><span style="color: #000000">&lt;</span><span style="color: #001080">script</span><span style="color: #000000"> </span><span style="color: #001080">type</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;text/javascript&quot;</span><span style="color: #000000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #001080">window</span><span style="color: #000000">.</span><span style="color: #001080">sam_data</span><span style="color: #000000"> = []</span>
+<span style="color: #000000">  </span><span style="color: #001080">sam_data</span><span style="color: #000000">.</span><span style="color: #795E26">push</span><span style="color: #000000">({</span><span style="color: #001080">config:</span><span style="color: #000000"> {</span><span style="color: #001080">sam_id:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;safdsaf&#039;</span><span style="color: #000000">, </span><span style="color: #001080">autoview:</span><span style="color: #000000"> </span><span style="color: #0000FF">false</span><span style="color: #000000">})</span>
+<span style="color: #000000">&lt;/</span><span style="color: #001080">script</span><span style="color: #000000">&gt;</span>
+<span style="color: #000000">&lt;</span><span style="color: #001080">script</span><span style="color: #000000"> </span><span style="color: #001080">src</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;https://cdn.jsdelivr.net/npm/brain-sam-js@0.0.3/dist/esbuild/sam.min.js&quot;</span><span style="color: #000000">&gt;&lt;/</span><span style="color: #267F99">script</span><span style="color: #000000">&gt;</span>
+
+<span style="color: #008000">// in other place of code - eg. when page data loading is completed:</span>
+<span style="color: #000000">&lt;</span><span style="color: #001080">script</span><span style="color: #000000"> </span><span style="color: #001080">type</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;text/javascript&quot;</span><span style="color: #000000">&gt;</span>
+<span style="color: #001080">sam_data</span><span style="color: #000000">.</span><span style="color: #795E26">push</span><span style="color: #000000">({</span><span style="color: #001080">p_t:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;Sport event&#039;</span><span style="color: #000000">, </span><span style="color: #001080">p_section:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;sport&#039;</span><span style="color: #000000">, </span><span style="color: #001080">p_l:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;/sport/event-post&#039;</span><span style="color: #000000">})</span>
+<span style="color: #001080">sam_data</span><span style="color: #000000">.</span><span style="color: #795E26">push</span><span style="color: #000000">({</span><span style="color: #001080">event:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;pageview&#039;</span><span style="color: #000000">})</span>
+<span style="color: #000000">&lt;/</span><span style="color: #001080">script</span><span style="color: #000000">&gt;</span>
+</code></pre>
+				<p><strong>Custom events:</strong>
+				Developer can send any custom js triggered event, by putting it in sam_data layer, all data provided with event object will be included in pixel, but not stored in data layer for following events:</p>
+				<pre><code><span style="color: #008000">// order form is displayed to the user</span>
+<span style="color: #000000">&lt;</span><span style="color: #001080">script</span><span style="color: #000000"> </span><span style="color: #001080">type</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;text/javascript&quot;</span><span style="color: #000000">&gt;</span>
+<span style="color: #001080">sam_data</span><span style="color: #000000">.</span><span style="color: #795E26">push</span><span style="color: #000000">({</span><span style="color: #001080">event:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;order_form&#039;</span><span style="color: #000000">, </span><span style="color: #001080">e_item_type:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;car&#039;</span><span style="color: #000000">})</span>
+<span style="color: #000000">&lt;/</span><span style="color: #001080">script</span><span style="color: #000000">&gt;</span>
+</code></pre>
+				<p><strong>Non-navigational events:</strong>
+				By default all events are counted in total page views, if you want just send data/event without putting it in total counts use event_type parameter:</p>
+				<pre><code><span style="color: #008000">// order confirmed</span>
+<span style="color: #000000">&lt;</span><span style="color: #001080">script</span><span style="color: #000000"> </span><span style="color: #001080">type</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;text/javascript&quot;</span><span style="color: #000000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #001080">sam_data</span><span style="color: #000000">.</span><span style="color: #795E26">push</span><span style="color: #000000">({</span><span style="color: #001080">event:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;order_completed&#039;</span><span style="color: #000000">, </span><span style="color: #001080">e_t:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;nonnavigational&#039;</span><span style="color: #000000">, </span><span style="color: #001080">e_amount:</span><span style="color: #000000"> </span><span style="color: #098658">122.22</span><span style="color: #000000">, </span><span style="color: #001080">e_currency:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;USD&#039;</span><span style="color: #000000">})</span>
+<span style="color: #000000">&lt;/</span><span style="color: #001080">script</span><span style="color: #000000">&gt;</span>
+</code></pre>
+				<p><strong>Event plugins:</strong>
+				any external code can register plugin that is listening to all incoming events and has ability to modify data before sending it to server:</p>
+				<pre><code><span style="color: #000000">&lt;</span><span style="color: #001080">script</span><span style="color: #000000"> </span><span style="color: #001080">type</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;text/javascript&quot;</span><span style="color: #000000">&gt;</span>
+<span style="color: #001080">sam_data</span><span style="color: #000000">.</span><span style="color: #795E26">push</span><span style="color: #000000">({</span><span style="color: #795E26">plugin</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">event_id</span><span style="color: #000000">, </span><span style="color: #001080">event_object</span><span style="color: #000000">, </span><span style="color: #001080">data_layer</span><span style="color: #000000">) {</span>
+<span style="color: #000000"> </span><span style="color: #008000">//this function will be called every time when event is about to send</span>
+
+<span style="color: #000000"> </span><span style="color: #AF00DB">if</span><span style="color: #000000">(</span><span style="color: #001080">event_object</span><span style="color: #000000">.</span><span style="color: #001080">event</span><span style="color: #000000"> == </span><span style="color: #A31515">&#039;order_completed&#039;</span><span style="color: #000000">) {</span>
+<span style="color: #000000">   </span><span style="color: #795E26">fetch_some_extra_data</span><span style="color: #000000">(</span><span style="color: #001080">event_object</span><span style="color: #000000">.</span><span style="color: #001080">order_id</span><span style="color: #000000">, </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">data</span><span style="color: #000000">) {</span>
+<span style="color: #000000">     </span><span style="color: #001080">sam_data</span><span style="color: #000000">.</span><span style="color: #795E26">push</span><span style="color: #000000">(</span><span style="color: #001080">event_object</span><span style="color: #000000">.</span><span style="color: #795E26">merge</span><span style="color: #000000">({</span><span style="color: #001080">e_id:</span><span style="color: #000000"> </span><span style="color: #001080">event_id</span><span style="color: #000000">, </span><span style="color: #001080">e_order_status:</span><span style="color: #000000"> </span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #001080">status</span><span style="color: #000000">}))</span>
+<span style="color: #000000">     </span><span style="color: #008000">// add extra data to event when available</span>
+<span style="color: #000000">   })</span>
+<span style="color: #000000"> }</span>
+<span style="color: #000000"> </span><span style="color: #008000">// update data layer before sending event</span>
+<span style="color: #000000"> </span><span style="color: #001080">total_amount</span><span style="color: #000000"> = </span><span style="color: #001080">data_layer</span><span style="color: #000000">.</span><span style="color: #795E26">get</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;s_total_amount&#039;</span><span style="color: #000000">) || </span><span style="color: #098658">0.0</span>
+<span style="color: #000000"> </span><span style="color: #001080">data_layer</span><span style="color: #000000">.</span><span style="color: #795E26">set</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;s_total_amount&#039;</span><span style="color: #000000">, </span><span style="color: #001080">total_amount</span><span style="color: #000000"> + </span><span style="color: #001080">e</span><span style="color: #000000">.</span><span style="color: #001080">amount</span><span style="color: #000000">)</span>
+<span style="color: #000000"> </span>
+<span style="color: #000000"> </span><span style="color: #008000">// update event_data</span>
+<span style="color: #000000"> </span><span style="color: #001080">event_object</span><span style="color: #000000">.</span><span style="color: #001080">e_date</span><span style="color: #000000"> = </span><span style="color: #795E26">fetchDate</span><span style="color: #000000">()</span>
+<span style="color: #000000">} })</span>
+<span style="color: #000000">&lt;/</span><span style="color: #001080">script</span><span style="color: #000000">&gt;</span>
+</code></pre>
+				<p><strong>Data layer listener:</strong>
+				By registering data layer listener you can modify/expand input data before is included in data layer OR trigger custom events based on data layer values</p>
+				<pre><code><span style="color: #000000">&lt;</span><span style="color: #001080">script</span><span style="color: #000000"> </span><span style="color: #001080">type</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;text/javascript&quot;</span><span style="color: #000000">&gt;</span>
+<span style="color: #001080">sam_data</span><span style="color: #000000">.</span><span style="color: #795E26">push</span><span style="color: #000000">({</span><span style="color: #795E26">processor</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">incoming_data</span><span style="color: #000000">, </span><span style="color: #001080">data_layer</span><span style="color: #000000">) {</span>
+<span style="color: #000000"> </span><span style="color: #AF00DB">if</span><span style="color: #000000">(</span><span style="color: #001080">incoming_data</span><span style="color: #000000">.</span><span style="color: #001080">amount</span><span style="color: #000000">) { </span>
+<span style="color: #000000">   </span><span style="color: #001080">total_amount</span><span style="color: #000000"> = </span><span style="color: #001080">data_layer</span><span style="color: #000000">.</span><span style="color: #795E26">get</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;s_total_amount&#039;</span><span style="color: #000000">) || </span><span style="color: #098658">0.0</span>
+<span style="color: #000000">   </span><span style="color: #AF00DB">return</span><span style="color: #000000"> {</span><span style="color: #001080">total_amount:</span><span style="color: #000000"> </span><span style="color: #001080">total_amount</span><span style="color: #000000"> + </span><span style="color: #001080">incoming_data</span><span style="color: #000000">.</span><span style="color: #001080">amount</span><span style="color: #000000">} </span>
+<span style="color: #000000">   </span><span style="color: #008000">// sam_data.push({amount: 123.00)} - data layer = {total_amount: 123.00}</span>
+<span style="color: #000000">   </span><span style="color: #008000">// sam_data.push({amount: 12)} - data layer = {total_amount: 135.00}</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">  </span><span style="color: #008000">// sam_data.push({other: &#039;abc&#039;)} - data layer = {total_amount: 135.00, other: &#039;abc&#039;}</span>
+<span style="color: #000000">} })</span>
+<span style="color: #000000">&lt;/</span><span style="color: #001080">script</span><span style="color: #000000">&gt;</span>
+</code></pre>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Exports</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/brainsam.html" class="tsd-kind-icon">Brain<wbr>Sam</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
