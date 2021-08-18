@@ -1,6 +1,6 @@
 {
   "name": "brain-sam-js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "description": "BrainSam is tracking script used with https://strategicaudiencemap.com service",
   "devDependencies": {
@@ -21,9 +21,8 @@
     "typescript": "^4.3.4"
   },
   "keywords": [
-    "tracking",
-    "sam",
-    "brain"
+    "vue",
+    "tooltip"
   ],
   "main": "./dist/tsc/main.js",
   "types": "./dist/tsc/main.d.ts",
@@ -57,10 +56,6 @@
     "url": "https://github.com/brainnordic/sam-js/issues"
   },
   "homepage": "https://github.com/brainnordic/sam-js",
-  "keywords": [
-    "vue",
-    "tooltip"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/brainnordic/sam-js.git"
