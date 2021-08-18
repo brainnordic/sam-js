@@ -25,11 +25,18 @@ export class BrainSam {
    * Initializes BrainSam & processes commands in data layer (if any)
    * @param data commands input (array) - all commands present in array during initialization will processed immediately, push method will be proxied to BrainSam command processor
    * 
+   * Available commands:
+   * - `{config: {autoview: true}}` - triggers pageview after dom is loaded (default: true)
+   * - `{config: {sam_id: 'abcde'}}` - sets master SAM id for events
+   * - `{config: {observable: 'location'}}` - triggers pageview event of every location change (e.g with history.push)
+   * - `{config: {observable: function() { return window.article_id }}}` - triggers pageview event of every value change
+   * - `{event: 'custom_event', custom_data: 'aaaa'}` - triggers custom event
+   * - `{user: {zipcode: '32423'}, page: {title: 'sfasfs'}}` - stores data id data layer for future events 
    *
    * Example:
    * ```typescript
    * const data:any[] = [{config: {autoview: false}}]
-   * const brain_sam = new BrainSam(data) // initializes data container
+   * const brain_sam = new BrainSam(data) // initializes data container & triggers pageview event
    * data.push({user: {zipcode: '12345'}}) // stores data for future events
    * data.push({event: 'custom_event'}) //triggers custom event
    * ```
@@ -61,11 +68,17 @@ export class BrainSam {
     }
   }
 
+  /**
+   * Executes page view event, resets current observable value (if set in config)
+   */
   pageView(){
     this.last_observable_value = this.getObservableValue()
     this.event('pageview')
   }
 
+  /**
+   * Return observable value, `location` => window.location.href, `function` => return value
+   */
   getObservableValue(){
     if(this.getConfig().observable == 'location'){
       return window.location.href
@@ -76,6 +89,9 @@ export class BrainSam {
     }
   }
 
+  /**
+   * Run 100ms inveral detecting observable changes
+   */
   watchObservable(){
     let that = this;
 
@@ -90,6 +106,9 @@ export class BrainSam {
     }
   }
 
+  /**
+   * Extract & map pixel data from data layer (user -> u_, domain -> d_, session -> s_, event -> e_, page -> p_)
+   */
   getPixelData(){
     let data = {}
 
@@ -110,10 +129,19 @@ export class BrainSam {
     return data
   }
 
+  /**
+   * Get configuration object from data layer
+   */
   getConfig(){
     return this.data_layer.get('config') || {}
   }
 
+  /**
+   * Sets 1st party `dep` cookie, Extracts current page info & data layer custom params & Executes event
+   * @param event_name event name
+   * @param obj optional extra data to be included in pixel call
+   * @param callback optional callback function called after pixel sucessfully loaded
+   */
   event(event_name: string, obj?: any, callback?: () => void) {
     this.setupDepCookie();
     let data = Object.assign({}, obj || {}, this.getPixelData());
@@ -133,6 +161,11 @@ export class BrainSam {
     this.pixel(data, callback)
   }
 
+  /**
+   * Execute pixel call
+   * @param data data to be included in pixel call
+   * @param callback optional callback function called after pixel sucessfully loaded
+   */
   pixel(data: any, callback?: () => void) {
     let pixel = new Image();
     if(callback) {  
@@ -141,6 +174,10 @@ export class BrainSam {
     pixel.src = BrainSam.pixel_url + "?" + qs.stringify(data);
   }
 
+
+  /**
+   * Return or Sets 1st party `dep` cookie
+   */
   setupDepCookie() {
     let cookie_id: string | undefined = Cookies.get("dep");
     if(!cookie_id) {
