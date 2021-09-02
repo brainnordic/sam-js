@@ -24,9 +24,9 @@
     "vue",
     "tooltip"
   ],
-  "main": "./dist/tsc/main.js",
+  "main": "./dist/esbuild/sam.js",
   "types": "./dist/tsc/main.d.ts",
-  "browser": "./dist/esbuild/browser.js",
+  "browser": "./dist/esbuild/sam.js",
   "bin": {
     "my-cli-tool": "./dist/esbuild/cli.js"
   },
