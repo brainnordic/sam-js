@@ -20,6 +20,7 @@ export class BrainSam {
   config: any;
   last_observable_value: string | undefined = undefined;
   interval: any;
+  dom_content_loaded_listener: (() => void) | undefined = undefined;
 
   /**
    * Initializes BrainSam & processes commands in data layer (if any)
@@ -58,7 +59,8 @@ export class BrainSam {
       if(typeof this.getConfig().autoview === 'undefined' || this.getConfig().autoview) {
         this.last_observable_value = this.getObservableValue()
         if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', this.pageView);
+          this.dom_content_loaded_listener = function() { that.pageView() }
+          document.addEventListener('DOMContentLoaded', this.dom_content_loaded_listener);
         } else {
           this.pageView()
         }
@@ -66,6 +68,12 @@ export class BrainSam {
 
       this.watchObservable()
     }
+  }
+
+  cleanup() {
+    if(this.dom_content_loaded_listener) {
+      document.removeEventListener('DOMContentLoaded', this.dom_content_loaded_listener)
+     }
   }
 
   /**

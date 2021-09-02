@@ -94,12 +94,30 @@ describe('when auto pageviews are enabled', () => {
   test("BrainSam doesn't execute pageview pixel if dom is still loading ", () => {
     let sam_data:any = []
     ready_state = 'loading'
-    new BrainSam(sam_data);
+    let brai_sam = new BrainSam(sam_data);
     expect(pixels.length).toBe(0)
     sam_data.push({event: 'custom_event'})
     expect(pixels.length).toBe(1)
     expect(pixels[0]).toContain('n=custom_event')
+
+    brai_sam.cleanup()
   });
+
+
+  test("BrainSam executes pageview after dom content is loaded ", () => {
+    let sam_data:any = []
+    ready_state = 'loading'
+    let brai_sam = new BrainSam(sam_data);
+    expect(pixels.length).toBe(0)
+    document.dispatchEvent(new Event("DOMContentLoaded", {
+      bubbles: true,
+      cancelable: true
+    }));
+    expect(pixels.length).toBe(1)
+    expect(pixels[0]).toContain('n=pageview')
+
+    brai_sam.cleanup()
+  });  
 });
 
 describe('when custom event is pushed to data layer', () => {
