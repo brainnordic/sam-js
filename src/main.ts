@@ -14,8 +14,7 @@ import {DataLayerHelper} from "./datalayer";
  * ```
  */
 export class BrainSam {
-
-  static pixel_url = "https://mkt.dep-x.com/d3p_e.gif"
+  static pixel_url = "https://sam.dep-x.com/e.gif"
   data_layer: any;
   config: any;
   last_observable_value: string | undefined = undefined;
