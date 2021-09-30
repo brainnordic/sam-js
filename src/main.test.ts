@@ -74,7 +74,7 @@ describe('when auto pageviews are enabled', () => {
     let sam_data:any = []
     new BrainSam(sam_data);
     expect(pixels.length).toBe(1)
-    expect(pixels[0]).toContain('n=pageview')
+    expect(pixels[0]).toContain('n=page_view')
     sam_data.push({event: 'custom_event'})
     expect(pixels.length).toBe(2)
     expect(pixels[1]).toContain('n=custom_event')
@@ -84,7 +84,7 @@ describe('when auto pageviews are enabled', () => {
     let sam_data:any = []
     new BrainSam(sam_data);
     expect(pixels.length).toBe(1)
-    expect(pixels[0]).toContain('n=pageview')
+    expect(pixels[0]).toContain('n=page_view')
     sam_data.push({event: 'custom_event'})
     expect(pixels.length).toBe(2)
     expect(pixels[1]).toContain('n=custom_event')
@@ -114,7 +114,7 @@ describe('when auto pageviews are enabled', () => {
       cancelable: true
     }));
     expect(pixels.length).toBe(1)
-    expect(pixels[0]).toContain('n=pageview')
+    expect(pixels[0]).toContain('n=page_view')
 
     brai_sam.cleanup()
   });  

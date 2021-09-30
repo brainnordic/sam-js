@@ -80,7 +80,7 @@ export class BrainSam {
    */
   pageView(){
     this.last_observable_value = this.getObservableValue()
-    this.event('pageview')
+    this.event('page_view')
   }
 
   /**

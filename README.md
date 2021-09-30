@@ -126,7 +126,7 @@ By registering data layer listener you can modify/expand input data before is in
     3. **n** - SAM ID
     4. **e -** event name - default **page_view**
     5. **e_id** - event id - default **nil** - all data in events with the same id will be merged
-    6. **e_t** - event type (**navigational, nonnavigational, data, user matching**) default: **navigational** - will be counted in total page views
+    6. **e_t** - event type (**navigational, nonnavigational, data, user matching**) default: **nonnavigational** for events other then page_view - if event type is set to **navigational** it will be counted in total page views
     7. **p_cid**, **click_id** - click id.
     8. **d_id -** first party cookie: dep=UUID
     9. **d_pid** - publisher internal id, eg. pubcid
