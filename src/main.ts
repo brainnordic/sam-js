@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { v4 as uuid } from 'uuid';
 import qs from 'qs';
 import {DataLayerHelper} from "./datalayer";
@@ -67,6 +66,30 @@ export class BrainSam {
 
       this.watchObservable()
     }
+  }
+
+  setCookie(name: string, val: string) {
+    const date = new Date();
+    const value = val;
+
+    // Set it expire in 365 days
+    date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
+
+    // Set it
+    document.cookie = name+"="+value+"; expires="+date.toUTCString()+"; path=/";
+  }
+
+  getCookie(name: string) {
+    const value = "; " + document.cookie;
+    const parts = value.split("; " + name + "=");
+
+    if (parts.length == 2) {
+      const part = parts.pop()
+      if (part) {
+        return part.split(";").shift();
+      }
+    }
+    return undefined
   }
 
   cleanup() {
@@ -186,10 +209,10 @@ export class BrainSam {
    * Return or Sets 1st party `dep` cookie
    */
   setupDepCookie() {
-    let cookie_id: string | undefined = Cookies.get("dep");
+    let cookie_id: string | undefined = this.getCookie("dep");
     if(!cookie_id) {
       cookie_id = uuid()
-      Cookies.set("dep", cookie_id, { expires: 365 });
+      this.setCookie("dep", cookie_id);
     }
 
     return cookie_id
