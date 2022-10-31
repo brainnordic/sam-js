@@ -27,6 +27,8 @@ export class BrainSam {
    * Available commands:
    * - `{config: {autoview: true}}` - triggers pageview after dom is loaded (default: true)
    * - `{config: {sam_id: 'abcde'}}` - sets master SAM id for events
+   * - `{config: {disable_3rd_party_cookies: true}}` - disable 3rd party cookie on dep-x.com domain
+   * - `{config: {disable_tracking_browser_data: true}}` - disable auto-tracking browser data
    * - `{config: {observable: 'location'}}` - triggers pageview event of every location change (e.g with history.push)
    * - `{config: {observable: function() { return window.article_id }}}` - triggers pageview event of every value change
    * - `{event: 'custom_event', custom_data: 'aaaa'}` - triggers custom event
@@ -185,9 +187,16 @@ export class BrainSam {
     data.p_d = window.location.host;
     data.p_l = window.location.href;
     data.p_r = document.referrer;
-    data.dp_r = window.devicePixelRatio;
-    data.p_h = Math.min(window.screen.height, 30000)
-    data.p_w = Math.min(window.screen.width, 30000)
+
+    if(this.getConfig().disable_3rd_party_cookies) {
+      data.c3p = 0
+    }
+
+    if(!this.getConfig().disable_tracking_browser_data) {
+      data.dp_r = window.devicePixelRatio;
+      data.p_h = Math.min(window.screen.height, 30000)
+      data.p_w = Math.min(window.screen.width, 30000)
+    }
     this.pixel(data, callback)
   }
 

@@ -177,8 +177,39 @@ describe('BrainSam includes basic location/window data to pageview event', () =>
     expect(pixels[0]).toContain('p_h=784')
   });
 
-  test("device pixel ration", () => {
-    expect(pixels[0]).toContain('p_r=2')
+  test("device pixel ratio", () => {
+    expect(pixels[0]).toContain('dp_r=2')
+  });
+});
+
+
+describe('when tracking browser data is disabled', () => {
+  beforeEach(() => {
+    let sam_data:any = [{config: {disable_tracking_browser_data: true}}]
+    new BrainSam(sam_data);
+  })
+
+  test("do not include screen width in pixel request", () => {
+    expect(pixels[0]).not.toContain('p_w=')
+  });
+
+  test("do not include screen height in pixel request", () => {
+    expect(pixels[0]).not.toContain('p_h=')
+  });
+
+  test("do not include device pixel ratio", () => {
+    expect(pixels[0]).not.toContain('dp_r=')
+  });
+});
+
+describe('when 3rd party cookie is disabled', () => {
+  beforeEach(() => {
+    let sam_data:any = [{config: {disable_3rd_party_cookies: true}}]
+    new BrainSam(sam_data);
+  })
+
+  test("disables dep-x.com cookie with c3p=0 param", () => {
+    expect(pixels[0]).toContain('c3p=0')
   });
 });
 

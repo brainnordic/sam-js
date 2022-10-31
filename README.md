@@ -12,6 +12,8 @@
     - **sam_id** - id of master sam
     - **autoview** - true/false - trigger page view on load, default: true
     - **observable** - undefined/location/function - trigger page view on each `observable` value change, default: undefined
+    - **disable_3rd_party_cookies: true** - disable 3rd party cookie on dep-x.com domain
+    - **disable_tracking_browser_data: true** - disable auto-tracking of browser data
 
 **data layer:**
 
