@@ -5,7 +5,7 @@
       window.sam_data = []
       sam_data.push({config: {sam_id: 'abcdef'})
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/brain-sam-js@0.0.3/dist/esbuild/sam.min.js"></script>
+    <script src="https://cdn.dep-x.com/npm/brain-sam-js@1.0"></script>
 
 **config options:**
 
@@ -34,7 +34,7 @@
       sam_data.push({config: {sam_id: 'safdsaf'})
       sam_data.push({p_section: 'sport', d_pid: window.pubcid})
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/brain-sam-js@0.0.3/dist/esbuild/sam.min.js"></script>
+    <script src="https://cdn.dep-x.com/npm/brain-sam-js@1.0"></script>
 
 **Sending events:**
 By default page view event is sent when sam.js is loaded, it can be changed with config value:
@@ -43,7 +43,7 @@ By default page view event is sent when sam.js is loaded, it can be changed with
       window.sam_data = []
       sam_data.push({config: {sam_id: 'safdsaf', autoview: false})
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/brain-sam-js@0.0.3/dist/esbuild/sam.min.js"></script>
+    <script src="https://cdn.dep-x.com/npm/brain-sam-js@1.0"></script>
     
     // in other place of code - eg. when page data loading is completed:
     <script type="text/javascript">
@@ -139,14 +139,15 @@ By registering data layer listener you can modify/expand input data before is in
     14. **d_pr** - device pixel ratio
     15. **d_h** - current sceen height, default: window.screen.height
     16. **d_w** - current sceen width, default: window.screen.height
-    17. **u_zipcode -** user zipcode 
-    18. **u_email** - user email - this is sensitive data, please contact us to establish encryption method
-    19. **u_pnr** - user pnr - this is sensitive data, please contact us to establish encryption method
-    20. **d_location** - current browser location format: latitude,longitude
-    21. **s_campaign** - campaign name/id for current user session
-    22. **p_section -** page section
-    23. **e_amount** **-** conversion/event value
-    24. **e_currency** - conversion value currency, default: EUR
+    17. **u_zipcode** - user zipcode
+    18. **u_country** - user country, ISO 3166 ALPHA-3 code, default: swe
+    19. **u_email** - user email - this is sensitive data, please contact us to establish encryption method
+    20. **u_pnr** - user pnr - this is sensitive data, please contact us to establish encryption method
+    21. **d_location** - current browser location format: latitude,longitude
+    22. **s_campaign** - campaign name/id for current user session
+    23. **p_section -** page section
+    24. **e_amount** **-** conversion/event value
+    25. **e_currency** - conversion value currency, default: EUR
     26. other/custom params: any other parameter with proper prefix (u_, d_, s_, p_, e_) will be stored in db for future usage, supported data types:
         1. integer
         2. float

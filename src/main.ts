@@ -32,7 +32,7 @@ export class BrainSam {
    * - `{config: {observable: 'location'}}` - triggers pageview event of every location change (e.g with history.push)
    * - `{config: {observable: function() { return window.article_id }}}` - triggers pageview event of every value change
    * - `{event: 'custom_event', custom_data: 'aaaa'}` - triggers custom event
-   * - `{user: {zipcode: '32423'}, page: {title: 'sfasfs'}}` - stores data id data layer for future events 
+   * - `{user: {zipcode: '32423', country: 'swe'}, page: {title: 'sfasfs'}}` - stores data id data layer for future events 
    *
    * Example:
    * ```typescript
