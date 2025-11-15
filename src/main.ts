@@ -85,7 +85,7 @@ export class BrainSam {
     const value = "; " + document.cookie;
     const parts = value.split("; " + name + "=");
 
-    if (parts.length == 2) {
+    if (parts.length === 2) {
       const part = parts.pop()
       if (part) {
         return part.split(";").shift();
@@ -112,7 +112,7 @@ export class BrainSam {
    * Return observable value, `location` => window.location.href, `function` => return value
    */
   getObservableValue(){
-    if(this.getConfig().observable == 'location'){
+    if(this.getConfig().observable === 'location'){
       return window.location.href
     } else if (typeof this.getConfig().observable === 'function') {
       return this.getConfig().observable()
@@ -128,9 +128,9 @@ export class BrainSam {
     let that = this;
 
     if(this.getConfig().observable) {
-      this.interval = setInterval(function(){ 
+      this.interval = setInterval(function(){
         let new_value = that.getObservableValue();
-        if(that.last_observable_value != undefined && new_value != undefined && that.last_observable_value != new_value) {
+        if(that.last_observable_value !== undefined && new_value !== undefined && that.last_observable_value !== new_value) {
           that.pageView()
         }
         that.last_observable_value = new_value
