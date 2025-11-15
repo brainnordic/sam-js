@@ -24,7 +24,7 @@ const TYPE_RE_ =
 
 
 function type(value) {
-  if (value == null) return String(value);
+  if (value === null) return String(value);
   const match = TYPE_RE_.exec(
       Object.prototype.toString.call(Object(value)));
   if (match) return match[1].toLowerCase();
@@ -38,9 +38,9 @@ function hasOwn(value, key) {
 
 
 function isPlainObject(value) {
-  if (!value || type(value) != 'object' || // Nulls, dates, etc.
+  if (!value || type(value) !== 'object' || // Nulls, dates, etc.
       value.nodeType || // DOM nodes.
-      value == value.window) { // Window objects.
+      value === value.window) { // Window objects.
     return false;
   }
   try {
@@ -246,7 +246,7 @@ export class DataLayerHelper {
       } else if (isArguments(update)) {
         const newStates = this.processArguments_((update));
         this.unprocessed_.push.apply(this.unprocessed_, newStates);
-      } else if (typeof update == 'function') {
+      } else if (typeof update === 'function') {
         try {
           update.call(this.abstractModelInterface_);
         } catch (e) {
@@ -256,7 +256,7 @@ export class DataLayerHelper {
           log(e, LogLevel.ERROR);
         }
       } else if (isPlainObject(update)) {
-        if(update['event'] && typeof update['event'] == 'string') {
+        if(update['event'] && typeof update['event'] === 'string') {
           const data = (({ event, ...o }) => o)(update)
           const newStates = this.processArguments_(['event', update['event'], data])
           this.unprocessed_.push.apply(this.unprocessed_, newStates);
