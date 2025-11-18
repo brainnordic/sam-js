@@ -77,8 +77,10 @@ export class BrainSam {
     // Set it expire in 365 days
     date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
 
-    // Set it
-    document.cookie = name+"="+value+"; expires="+date.toUTCString()+"; path=/";
+    // Set it with security flags
+    // Secure: Only send cookie over HTTPS
+    // SameSite=Lax: Protect against CSRF while allowing navigation
+    document.cookie = name+"="+value+"; expires="+date.toUTCString()+"; path=/; Secure; SameSite=Lax";
   }
 
   getCookie(name: string) {
