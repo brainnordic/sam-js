@@ -69,6 +69,15 @@ function expandKeyValue(key, value) {
   const result = {};
   let target = result;
   const split = key.split('.');
+
+  // Check each part of the key path for dangerous properties
+  for (let i = 0; i < split.length; i++) {
+    if (isDangerousProperty(split[i])) {
+      log(`Blocked attempt to set dangerous property: ${key}`, LogLevel.WARNING);
+      return {};
+    }
+  }
+
   for (let i = 0; i < split.length - 1; i++) {
     target = target[split[i]] = {};
   }
@@ -91,10 +100,25 @@ function isString(value) {
   return type(value) === 'string';
 }
 
+/**
+ * Check if a property name is dangerous and could lead to prototype pollution
+ * @param key The property name to check
+ * @returns true if the property is dangerous
+ */
+function isDangerousProperty(key) {
+  return key === '__proto__' || key === 'constructor' || key === 'prototype';
+}
+
 function merge(from, to) {
   const allowMerge = !from['_clear'];
   for (const property in from) {
     if (hasOwn(from, property)) {
+      // Prevent prototype pollution
+      if (isDangerousProperty(property)) {
+        log(`Blocked attempt to merge dangerous property: ${property}`, LogLevel.WARNING);
+        continue;
+      }
+
       const fromProperty = from[property];
       if (isArray(fromProperty) && allowMerge) {
         if (!isArray(to[property])) to[property] = [];
