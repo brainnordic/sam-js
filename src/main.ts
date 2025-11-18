@@ -72,7 +72,10 @@ export class BrainSam {
 
   setCookie(name: string, val: string) {
     const date = new Date();
-    const value = val;
+
+    // Validate and sanitize cookie value to prevent cookie injection
+    // Remove semicolons and other characters that could break cookie format
+    const value = val.replace(/[;\n\r]/g, '');
 
     // Set it expire in 365 days
     date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
