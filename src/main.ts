@@ -152,7 +152,8 @@ export class BrainSam {
       page: 'p_', p: 'p_'
     }
 
-    for(const item in mapped_items){
+    // Use Object.keys to safely iterate only over own properties
+    for(const item of Object.keys(mapped_items)){
       for (let [k, v] of Object.entries((this.data_layer.get(item) || {}))) {
         data[mapped_items[item]+k] = v;
       }
