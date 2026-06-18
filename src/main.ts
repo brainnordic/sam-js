@@ -29,9 +29,11 @@ export class BrainSam {
    * - `{config: {sam_id: 'abcde'}}` - sets master SAM id for events
    * - `{config: {disable_3rd_party_cookies: true}}` - disable 3rd party cookie on dep-x.com domain
    * - `{config: {disable_tracking_browser_data: true}}` - disable auto-tracking browser data
+   * - `{config: {beacon: true}}` - send events via navigator.sendBeacon (falls back to pixel if unsupported)
    * - `{config: {observable: 'location'}}` - triggers pageview event of every location change (e.g with history.push)
    * - `{config: {observable: function() { return window.article_id }}}` - triggers pageview event of every value change
    * - `{event: 'custom_event', custom_data: 'aaaa'}` - triggers custom event
+   * - `{event: 'custom_event', beacon: true}` - triggers custom event via navigator.sendBeacon (the `beacon` flag is not sent to the server)
    * - `{user: {zipcode: '32423', country: 'swe'}, page: {title: 'sfasfs'}}` - stores data id data layer for future events 
    *
    * Example:
@@ -177,6 +179,11 @@ export class BrainSam {
   event(event_name: string, obj?: any, callback?: () => void) {
     this.setupDepCookie();
     let data = Object.assign({}, obj || {}, this.getPixelData());
+
+    // `beacon` is an opt-in flag, never sent to the server
+    const use_beacon = this.getConfig().beacon || data.beacon;
+    delete data.beacon;
+
     if(this.getConfig().sam_id) {
       data.n = this.getConfig().sam_id;
       data.e = event_name;
@@ -197,7 +204,33 @@ export class BrainSam {
       data.p_h = Math.min(window.screen.height, 30000)
       data.p_w = Math.min(window.screen.width, 30000)
     }
-    this.pixel(data, callback)
+    this.send(data, use_beacon, callback)
+  }
+
+  /**
+   * Send collected data, optionally via `navigator.sendBeacon` with a fallback to the pixel.
+   * @param data data to be included in the call
+   * @param use_beacon when truthy, attempt `navigator.sendBeacon` and fall back to the pixel if unsupported/failed
+   * @param callback optional callback function called after the call succeeded
+   */
+  send(data: any, use_beacon?: boolean, callback?: () => void) {
+    if(use_beacon && typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
+      if(navigator.sendBeacon(this.buildUrl(data))) {
+        if(callback) {
+          callback();
+        }
+        return;
+      }
+    }
+    this.pixel(data, callback);
+  }
+
+  /**
+   * Build the tracking request URL from the pixel endpoint and the given data
+   * @param data data to be encoded into the query string
+   */
+  buildUrl(data: any) {
+    return BrainSam.pixel_url + "?" + qs.stringify(data);
   }
 
   /**
@@ -207,10 +240,10 @@ export class BrainSam {
    */
   pixel(data: any, callback?: () => void) {
     let pixel = new Image();
-    if(callback) {  
+    if(callback) {
       pixel.onload = callback;
     }
-    pixel.src = BrainSam.pixel_url + "?" + qs.stringify(data);
+    pixel.src = this.buildUrl(data);
   }
 
 

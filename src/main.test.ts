@@ -5,6 +5,9 @@
 import { BrainSam } from './main'
 
 let pixels:string[] = []
+let beacons:string[] = []
+let beacon_supported:boolean = true
+let beacon_result:boolean = true
 const NativeImage = (global as any).Image;
 let ready_state:string = 'completed'
 let location:any = {}
@@ -53,6 +56,19 @@ beforeAll(() => {
   }
   
   (global as any).Image = FakeImage;
+
+  Object.defineProperty(navigator, "sendBeacon", {
+    configurable: true,
+    get() {
+      if (!beacon_supported) {
+        return undefined;
+      }
+      return function(url: string) {
+        beacons.push(url);
+        return beacon_result;
+      };
+    },
+  });
 })
 
 beforeEach(() => {
@@ -62,6 +78,9 @@ beforeEach(() => {
   ready_state = 'completed'
   referrer = 'https://demo.com/banner1'
   pixels = []
+  beacons = []
+  beacon_supported = true
+  beacon_result = true
   pixel_ratio = 2
 });
 
@@ -136,6 +155,57 @@ describe('when custom event is pushed to data layer', () => {
     expect(pixels.length).toBe(2)
     expect(pixels[1]).toContain('user_zipcode=123213')
     expect(pixels[1]).toContain('conversion_value=12.22')
+  });
+});
+
+describe('beacon sending', () => {
+  test("does not use beacon by default", () => {
+    let sam_data:any = []
+    new BrainSam(sam_data);
+    expect(pixels.length).toBe(1)
+    expect(beacons.length).toBe(0)
+  });
+
+  test("uses beacon when enabled via config", () => {
+    let sam_data:any = [{config: {beacon: true}}]
+    new BrainSam(sam_data);
+    expect(beacons.length).toBe(1)
+    expect(pixels.length).toBe(0)
+    expect(beacons[0]).toContain('n=page_view')
+  });
+
+  test("uses beacon when opted-in via event attribute", () => {
+    let sam_data:any = []
+    new BrainSam(sam_data);
+    sam_data.push({event: 'custom_event', beacon: true})
+    expect(beacons.length).toBe(1)
+    expect(pixels.length).toBe(1) // only the auto pageview went via pixel
+    expect(beacons[0]).toContain('n=custom_event')
+  });
+
+  test("does not send the beacon flag to the server", () => {
+    let sam_data:any = []
+    new BrainSam(sam_data);
+    sam_data.push({event: 'custom_event', beacon: true, user_zipcode: '123213'})
+    expect(beacons[0]).not.toContain('beacon')
+    expect(beacons[0]).toContain('user_zipcode=123213')
+  });
+
+  test("falls back to pixel when sendBeacon is unsupported", () => {
+    beacon_supported = false
+    let sam_data:any = [{config: {beacon: true}}]
+    new BrainSam(sam_data);
+    expect(beacons.length).toBe(0)
+    expect(pixels.length).toBe(1)
+    expect(pixels[0]).toContain('n=page_view')
+  });
+
+  test("falls back to pixel when sendBeacon returns false", () => {
+    beacon_result = false
+    let sam_data:any = [{config: {beacon: true}}]
+    new BrainSam(sam_data);
+    expect(beacons.length).toBe(1)
+    expect(pixels.length).toBe(1)
   });
 });
 
