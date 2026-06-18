@@ -58,74 +58,9 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<a href="#development" id="development" style="color: inherit; text-decoration: none;">
-					<h1>development</h1>
-				</a>
-				<ul>
-					<li><code>yarn build-all</code> - builds all scripts in /dist</li>
-					<li><code>yarn esbuild-browser:watch</code> - watches changes in sam.js code &amp; builds browser version of js</li>
-					<li><code>yarn server</code> - runs web server with sam.js DEMO <code>http://localhost:8080/browser-test.html</code></li>
-					<li><code>yarn test</code> - runs sam.js tests</li>
-					<li><code>yarn docs</code> - builds documentation</li>
-					<li><code>yarn publish</code> - publishes new version of sam.js</li>
-				</ul>
 				<a href="#samjs-api" id="samjs-api" style="color: inherit; text-decoration: none;">
 					<h1>sam.js API</h1>
 				</a>
-				<a href="#pixel-api" id="pixel-api" style="color: inherit; text-decoration: none;">
-					<h2>pixel api:</h2>
-				</a>
-				<p><strong>endpoint:</strong> </p>
-				<ul>
-					<li><a href="https://sam.dep-x.com/e.gif">https://sam.dep-x.com/e.gif</a></li>
-				</ul>
-				<p><strong>data scopes:</strong></p>
-				<ul>
-					<li>user prefix: <strong>u_</strong></li>
-					<li>device/domain: <strong>d_</strong></li>
-					<li>session: <strong>s_</strong></li>
-					<li>event: <strong>e_</strong></li>
-					<li>page/view/resource: <strong>p_</strong></li>
-				</ul>
-				<p><strong>methods:</strong></p>
-				<ol>
-					<li>/e.gif?n=SAM_ID&amp;e=EVENT_NAME….<ol>
-							<li><strong>domain cookie:</strong> buid=UUID</li>
-							<li><strong>headers stored/processed:</strong> client_ip, referrer, user_agent, accept_language</li>
-							<li><strong>n</strong> - SAM ID</li>
-							<li><strong>e -</strong> event name - default <strong>page_view</strong></li>
-							<li><strong>e_id</strong> - event id - default <strong>nil</strong> - all data in events with the same id will be merged</li>
-							<li><strong>e_t</strong> - event type (<strong>navigational, nonnavigational, data, user matching</strong>) default: <strong>navigational</strong> - will be counted in total page views</li>
-							<li><strong>p_cid</strong>, <strong>click_id</strong> - click id.</li>
-							<li><strong>d_id -</strong> first party cookie: dep=UUID</li>
-							<li><strong>d_pid</strong> - publisher internal id, eg. pubcid</li>
-							<li><strong>p_d</strong> - page domain, default: window.location.host</li>
-							<li><strong>p_l</strong> - page location, default: window.location.href</li>
-							<li><strong>p_r -</strong> page referrer, default: document.referrer</li>
-							<li><strong>p_t</strong> - page title</li>
-							<li><strong>d_pr</strong> - device pixel ratio</li>
-							<li><strong>d_h</strong> - current sceen height, default: window.screen.height</li>
-							<li><strong>d_w</strong> - current sceen width, default: window.screen.height</li>
-							<li><strong>u_zipcode -</strong> user zipcode </li>
-							<li><strong>u_email</strong> - user email - this is sensitive data, please contact us to establish encryption method</li>
-							<li><strong>u_pnr</strong> - user pnr - this is sensitive data, please contact us to establish encryption method</li>
-							<li><strong>d_location</strong> - current browser location format: latitude,longitude</li>
-							<li><strong>s_campaign</strong> - campaign name/id for current user session</li>
-							<li><strong>p_section -</strong> page section</li>
-							<li><strong>e_amount</strong> <strong>-</strong> conversion/event value</li>
-							<li><strong>e_currency</strong> - conversion value currency, default: EUR</li>
-							<li>other/custom params: any other parameter with proper prefix (u_, d_, s_, p_, e_) will be stored in db for future usage, supported data types:<ol>
-									<li>integer</li>
-									<li>float</li>
-									<li>string (max 100 chars) [category/true/false etc]</li>
-									<li>array of strings: [‘abc’, ‘def’, ‘xyz’] (maximum 20 elements, each max 20 chars)</li>
-									<li>date - YYYY-MM-DD</li>
-									<li>time - HH:MM(:SS) eg. 23:12, 12:34:01</li>
-								</ol>
-							</li>
-						</ol>
-					</li>
-				</ol>
 				<a href="#js-api" id="js-api" style="color: inherit; text-decoration: none;">
 					<h2>js api:</h2>
 				</a>
@@ -139,6 +74,8 @@
 				<pre><code><span style="color: #000000">- **</span><span style="color: #001080">sam_id</span><span style="color: #000000">** - </span><span style="color: #001080">id</span><span style="color: #000000"> </span><span style="color: #0000FF">of</span><span style="color: #000000"> </span><span style="color: #001080">master</span><span style="color: #000000"> </span><span style="color: #001080">sam</span>
 <span style="color: #000000">- **</span><span style="color: #001080">autoview</span><span style="color: #000000">** - </span><span style="color: #0000FF">true</span><span style="color: #000000">/</span><span style="color: #0000FF">false</span><span style="color: #000000"> - </span><span style="color: #001080">trigger</span><span style="color: #000000"> </span><span style="color: #001080">page</span><span style="color: #000000"> </span><span style="color: #001080">view</span><span style="color: #000000"> </span><span style="color: #001080">on</span><span style="color: #000000"> </span><span style="color: #001080">load</span><span style="color: #000000">, </span><span style="color: #AF00DB">default</span><span style="color: #000000">: </span><span style="color: #0000FF">true</span>
 <span style="color: #000000">- **</span><span style="color: #001080">observable</span><span style="color: #000000">** - </span><span style="color: #0000FF">undefined</span><span style="color: #000000">/</span><span style="color: #001080">location</span><span style="color: #000000">/</span><span style="color: #0000FF">function</span><span style="color: #000000"> - </span><span style="color: #795E26">trigger</span><span style="color: #000000"> </span><span style="color: #795E26">page</span><span style="color: #000000"> </span><span style="color: #795E26">view</span><span style="color: #000000"> </span><span style="color: #795E26">on</span><span style="color: #000000"> </span><span style="color: #795E26">each</span><span style="color: #000000"> `</span><span style="color: #795E26">observable</span><span style="color: #000000">` </span><span style="color: #795E26">value</span><span style="color: #000000"> </span><span style="color: #795E26">change</span><span style="color: #000000">, </span><span style="color: #795E26">default</span><span style="color: #000000">: </span><span style="color: #795E26">undefined</span>
+<span style="color: #000000">- </span><span style="color: #0000FF">**</span><span style="color: #795E26">disable_3rd_party_cookies</span><span style="color: #000000">: </span><span style="color: #795E26">true</span><span style="color: #0000FF">**</span><span style="color: #000000"> - </span><span style="color: #795E26">disable</span><span style="color: #000000"> 3</span><span style="color: #795E26">rd</span><span style="color: #000000"> </span><span style="color: #795E26">party</span><span style="color: #000000"> </span><span style="color: #795E26">cookie</span><span style="color: #000000"> </span><span style="color: #795E26">on</span><span style="color: #000000"> </span><span style="color: #795E26">dep</span><span style="color: #000000">-</span><span style="color: #795E26">x</span><span style="color: #000000">.</span><span style="color: #795E26">com</span><span style="color: #000000"> </span><span style="color: #795E26">domain</span>
+<span style="color: #000000">- </span><span style="color: #0000FF">**</span><span style="color: #795E26">disable_tracking_browser_data</span><span style="color: #000000">: </span><span style="color: #795E26">true</span><span style="color: #0000FF">**</span><span style="color: #000000"> - </span><span style="color: #795E26">disable</span><span style="color: #000000"> </span><span style="color: #795E26">auto</span><span style="color: #000000">-</span><span style="color: #795E26">tracking</span><span style="color: #000000"> </span><span style="color: #795E26">of</span><span style="color: #000000"> </span><span style="color: #795E26">browser</span><span style="color: #000000"> </span><span style="color: #795E26">data</span>
 </code></pre>
 				<p><strong>data layer:</strong></p>
 				<ul>
@@ -223,6 +160,72 @@
 <span style="color: #000000">} })</span>
 <span style="color: #000000">&lt;/</span><span style="color: #001080">script</span><span style="color: #000000">&gt;</span>
 </code></pre>
+				<a href="#pixel-api" id="pixel-api" style="color: inherit; text-decoration: none;">
+					<h2>pixel api:</h2>
+				</a>
+				<p><strong>endpoint:</strong> </p>
+				<ul>
+					<li><a href="https://sam.dep-x.com/e.gif">https://sam.dep-x.com/e.gif</a></li>
+				</ul>
+				<p><strong>data scopes:</strong></p>
+				<ul>
+					<li>user prefix: <strong>u_</strong></li>
+					<li>device/domain: <strong>d_</strong></li>
+					<li>session: <strong>s_</strong></li>
+					<li>event: <strong>e_</strong></li>
+					<li>page/view/resource: <strong>p_</strong></li>
+				</ul>
+				<p><strong>methods:</strong></p>
+				<ol>
+					<li>/e.gif?n=SAM_ID&amp;e=EVENT_NAME….<ol>
+							<li><strong>domain cookie:</strong> buid=UUID</li>
+							<li><strong>headers stored/processed:</strong> client_ip, referrer, user_agent, accept_language</li>
+							<li><strong>n</strong> - SAM ID</li>
+							<li><strong>e -</strong> event name - default <strong>page_view</strong></li>
+							<li><strong>e_id</strong> - event id - default <strong>nil</strong> - all data in events with the same id will be merged</li>
+							<li><strong>e_t</strong> - event type (<strong>navigational, nonnavigational, data, user matching</strong>) default: <strong>nonnavigational</strong> for events other then page_view - if event type is set to <strong>navigational</strong> it will be counted in total page views</li>
+							<li><strong>p_cid</strong>, <strong>click_id</strong> - click id.</li>
+							<li><strong>d_id -</strong> first party cookie: dep=UUID</li>
+							<li><strong>d_pid</strong> - publisher internal id, eg. pubcid</li>
+							<li><strong>p_d</strong> - page domain, default: window.location.host</li>
+							<li><strong>p_l</strong> - page location, default: window.location.href</li>
+							<li><strong>p_r -</strong> page referrer, default: document.referrer</li>
+							<li><strong>p_t</strong> - page title</li>
+							<li><strong>d_pr</strong> - device pixel ratio</li>
+							<li><strong>d_h</strong> - current sceen height, default: window.screen.height</li>
+							<li><strong>d_w</strong> - current sceen width, default: window.screen.height</li>
+							<li><strong>u_zipcode</strong> - user zipcode</li>
+							<li><strong>u_country</strong> - user country, ISO 3166 ALPHA-3 code, default: swe</li>
+							<li><strong>u_email</strong> - user email - this is sensitive data, please contact us to establish encryption method</li>
+							<li><strong>u_pnr</strong> - user pnr - this is sensitive data, please contact us to establish encryption method</li>
+							<li><strong>d_location</strong> - current browser location format: latitude,longitude</li>
+							<li><strong>s_campaign</strong> - campaign name/id for current user session</li>
+							<li><strong>p_section -</strong> page section</li>
+							<li><strong>e_amount</strong> <strong>-</strong> conversion/event value</li>
+							<li><strong>e_currency</strong> - conversion value currency, default: EUR</li>
+							<li>other/custom params: any other parameter with proper prefix (u_, d_, s_, p_, e_) will be stored in db for future usage, supported data types:<ol>
+									<li>integer</li>
+									<li>float</li>
+									<li>string (max 100 chars) [category/true/false etc]</li>
+									<li>array of strings: [‘abc’, ‘def’, ‘xyz’] (maximum 20 elements, each max 20 chars)</li>
+									<li>date - YYYY-MM-DD</li>
+									<li>time - HH:MM(:SS) eg. 23:12, 12:34:01</li>
+								</ol>
+							</li>
+						</ol>
+					</li>
+				</ol>
+				<a href="#development" id="development" style="color: inherit; text-decoration: none;">
+					<h1>development</h1>
+				</a>
+				<ul>
+					<li><code>yarn build-all</code> - builds all scripts in /dist</li>
+					<li><code>yarn esbuild-browser:watch</code> - watches changes in sam.js code &amp; builds browser version of js</li>
+					<li><code>yarn server</code> - runs web server with sam.js DEMO <code>http://localhost:8080/browser-test.html</code></li>
+					<li><code>yarn test</code> - runs sam.js tests</li>
+					<li><code>yarn docs</code> - builds documentation</li>
+					<li><code>yarn publish</code> - publishes new version of sam.js</li>
+				</ul>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">

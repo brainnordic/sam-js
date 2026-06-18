@@ -100,6 +100,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="brainsam.html#config" class="tsd-kind-icon">config</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="brainsam.html#data_layer" class="tsd-kind-icon">data_<wbr>layer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="brainsam.html#dom_content_loaded_listener" class="tsd-kind-icon">dom_<wbr>content_<wbr>loaded_<wbr>listener</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="brainsam.html#interval" class="tsd-kind-icon">interval</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="brainsam.html#last_observable_value" class="tsd-kind-icon">last_<wbr>observable_<wbr>value</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="brainsam.html#pixel_url" class="tsd-kind-icon">pixel_<wbr>url</a></li>
@@ -108,12 +109,17 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="brainsam.html#buildurl" class="tsd-kind-icon">build<wbr>Url</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="brainsam.html#cleanup" class="tsd-kind-icon">cleanup</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="brainsam.html#event" class="tsd-kind-icon">event</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="brainsam.html#getconfig" class="tsd-kind-icon">get<wbr>Config</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="brainsam.html#getcookie" class="tsd-kind-icon">get<wbr>Cookie</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="brainsam.html#getobservablevalue" class="tsd-kind-icon">get<wbr>Observable<wbr>Value</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="brainsam.html#getpixeldata" class="tsd-kind-icon">get<wbr>Pixel<wbr>Data</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="brainsam.html#pageview" class="tsd-kind-icon">page<wbr>View</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="brainsam.html#pixel" class="tsd-kind-icon">pixel</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="brainsam.html#send" class="tsd-kind-icon">send</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="brainsam.html#setcookie" class="tsd-kind-icon">set<wbr>Cookie</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="brainsam.html#setupdepcookie" class="tsd-kind-icon">setup<wbr>Dep<wbr>Cookie</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="brainsam.html#watchobservable" class="tsd-kind-icon">watch<wbr>Observable</a></li>
 							</ul>
@@ -133,7 +139,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/99a567f/src/main.ts#L22">main.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L21">main.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -151,10 +157,14 @@
 										<ul>
 											<li><code>{config: {autoview: true}}</code> - triggers pageview after dom is loaded (default: true)</li>
 											<li><code>{config: {sam_id: &#39;abcde&#39;}}</code> - sets master SAM id for events</li>
+											<li><code>{config: {disable_3rd_party_cookies: true}}</code> - disable 3rd party cookie on dep-x.com domain</li>
+											<li><code>{config: {disable_tracking_browser_data: true}}</code> - disable auto-tracking browser data</li>
+											<li><code>{config: {beacon: true}}</code> - send events via navigator.sendBeacon (falls back to pixel if unsupported)</li>
 											<li><code>{config: {observable: &#39;location&#39;}}</code> - triggers pageview event of every location change (e.g with history.push)</li>
 											<li><code>{config: {observable: function() { return window.article_id }}}</code> - triggers pageview event of every value change</li>
 											<li><code>{event: &#39;custom_event&#39;, custom_data: &#39;aaaa&#39;}</code> - triggers custom event</li>
-											<li><code>{user: {zipcode: &#39;32423&#39;}, page: {title: &#39;sfasfs&#39;}}</code> - stores data id data layer for future events</li>
+											<li><code>{event: &#39;custom_event&#39;, beacon: true}</code> - triggers custom event via navigator.sendBeacon (the <code>beacon</code> flag is not sent to the server)</li>
+											<li><code>{user: {zipcode: &#39;32423&#39;, country: &#39;swe&#39;}, page: {title: &#39;sfasfs&#39;}}</code> - stores data id data layer for future events</li>
 										</ul>
 										<p>Example:</p>
 										<pre><code class="language-typescript"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">data</span><span style="color: #000000">:</span><span style="color: #267F99">any</span><span style="color: #000000">[] = [{</span><span style="color: #001080">config:</span><span style="color: #000000"> {</span><span style="color: #001080">autoview:</span><span style="color: #000000"> </span><span style="color: #0000FF">false</span><span style="color: #000000">}}]</span>
@@ -178,7 +188,7 @@
 					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/99a567f/src/main.ts#L20">main.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L18">main.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -188,7 +198,17 @@
 					<div class="tsd-signature tsd-kind-icon">data_<wbr>layer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/99a567f/src/main.ts#L19">main.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L17">main.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="dom_content_loaded_listener" class="tsd-anchor"></a>
+					<h3>dom_<wbr>content_<wbr>loaded_<wbr>listener</h3>
+					<div class="tsd-signature tsd-kind-icon">dom_<wbr>content_<wbr>loaded_<wbr>listener<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L21">main.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -198,7 +218,7 @@
 					<div class="tsd-signature tsd-kind-icon">interval<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/99a567f/src/main.ts#L22">main.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L20">main.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -208,23 +228,71 @@
 					<div class="tsd-signature tsd-kind-icon">last_<wbr>observable_<wbr>value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/99a567f/src/main.ts#L21">main.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L19">main.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
 					<a name="pixel_url" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> pixel_<wbr>url</h3>
-					<div class="tsd-signature tsd-kind-icon">pixel_<wbr>url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;https://mkt.dep-x.com/d3p_e.gif&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">pixel_<wbr>url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;https://sam.dep-x.com/e.gif&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/99a567f/src/main.ts#L18">main.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L16">main.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="buildurl" class="tsd-anchor"></a>
+					<h3>build<wbr>Url</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">build<wbr>Url<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L232">main.ts:232</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Build the tracking request URL from the pixel endpoint and the given data</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>data: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>data to be encoded into the query string</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="cleanup" class="tsd-anchor"></a>
+					<h3>cleanup</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">cleanup<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L99">main.ts:99</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="event" class="tsd-anchor"></a>
 					<h3>event</h3>
@@ -235,7 +303,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/99a567f/src/main.ts#L145">main.ts:145</a></li>
+									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L179">main.ts:179</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -290,7 +358,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/99a567f/src/main.ts#L135">main.ts:135</a></li>
+									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L169">main.ts:169</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -299,6 +367,29 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getcookie" class="tsd-anchor"></a>
+					<h3>get<wbr>Cookie</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Cookie<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L86">main.ts:86</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -312,7 +403,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/99a567f/src/main.ts#L82">main.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L116">main.ts:116</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -334,7 +425,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/99a567f/src/main.ts#L112">main.ts:112</a></li>
+									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L146">main.ts:146</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -358,7 +449,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/99a567f/src/main.ts#L74">main.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L108">main.ts:108</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -380,7 +471,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/99a567f/src/main.ts#L169">main.ts:169</a></li>
+									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L241">main.ts:241</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -420,6 +511,87 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="send" class="tsd-anchor"></a>
+					<h3>send</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, use_beacon<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L216">main.ts:216</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Send collected data, optionally via <code>navigator.sendBeacon</code> with a fallback to the pixel.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>data: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>data to be included in the call</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> use_beacon: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>when truthy, attempt <code>navigator.sendBeacon</code> and fall back to the pixel if unsupported/failed</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>optional callback function called after the call succeeded</p>
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setcookie" class="tsd-anchor"></a>
+					<h3>set<wbr>Cookie</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Cookie<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L75">main.ts:75</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>val: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="setupdepcookie" class="tsd-anchor"></a>
 					<h3>setup<wbr>Dep<wbr>Cookie</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -429,7 +601,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/99a567f/src/main.ts#L181">main.ts:181</a></li>
+									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L253">main.ts:253</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -451,7 +623,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/99a567f/src/main.ts#L95">main.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/brainnordic/sam-js/blob/6607e01/src/main.ts#L129">main.ts:129</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -490,6 +662,9 @@
 								<a href="brainsam.html#data_layer" class="tsd-kind-icon">data_<wbr>layer</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="brainsam.html#dom_content_loaded_listener" class="tsd-kind-icon">dom_<wbr>content_<wbr>loaded_<wbr>listener</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="brainsam.html#interval" class="tsd-kind-icon">interval</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
@@ -499,10 +674,19 @@
 								<a href="brainsam.html#pixel_url" class="tsd-kind-icon">pixel_<wbr>url</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="brainsam.html#buildurl" class="tsd-kind-icon">build<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="brainsam.html#cleanup" class="tsd-kind-icon">cleanup</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="brainsam.html#event" class="tsd-kind-icon">event</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="brainsam.html#getconfig" class="tsd-kind-icon">get<wbr>Config</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="brainsam.html#getcookie" class="tsd-kind-icon">get<wbr>Cookie</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="brainsam.html#getobservablevalue" class="tsd-kind-icon">get<wbr>Observable<wbr>Value</a>
@@ -515,6 +699,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="brainsam.html#pixel" class="tsd-kind-icon">pixel</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="brainsam.html#send" class="tsd-kind-icon">send</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="brainsam.html#setcookie" class="tsd-kind-icon">set<wbr>Cookie</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="brainsam.html#setupdepcookie" class="tsd-kind-icon">setup<wbr>Dep<wbr>Cookie</a>
