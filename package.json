@@ -21,15 +21,14 @@
     "typescript": "^4.3.4"
   },
   "keywords": [
-    "vue",
-    "tooltip"
+    "tracking",
+    "analytics",
+    "pixel",
+    "samhub"
   ],
   "main": "./dist/esbuild/sam.js",
   "types": "./dist/tsc/main.d.ts",
   "browser": "./dist/esbuild/sam.js",
-  "bin": {
-    "my-cli-tool": "./dist/esbuild/cli.js"
-  },
   "scripts": {
     "cli": "ts-node src/cli.ts",
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
