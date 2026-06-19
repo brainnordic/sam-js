@@ -177,7 +177,6 @@ export class BrainSam {
    * @param callback optional callback function called after pixel sucessfully loaded
    */
   event(event_name: string, obj?: any, callback?: () => void) {
-    this.setupDepCookie();
     const data = Object.assign({}, obj || {}, this.getPixelData());
 
     // `beacon` is an opt-in flag, never sent to the server
