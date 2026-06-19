@@ -3,7 +3,7 @@ import qs from 'qs';
 import {DataLayerHelper} from "./datalayer";
 
 /**
- * BrainSam is tracking script used with https://strategicaudiencemap.com service
+ * BrainSam is tracking script used with https://samhub.io service
  *
  * ```typescript
  * const data:any[] = []
