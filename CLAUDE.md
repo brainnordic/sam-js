@@ -23,7 +23,7 @@ The whole library is three source files in `src/`:
 
 - **`main.ts`** — the `BrainSam` class, the entire public API. Construction wires the data layer, optionally fires a `page_view` (gated on `config.autoview`, deferred to `DOMContentLoaded` if the document is still loading), and starts the observable watcher. `event()` assembles the pixel payload, manages the first-party `dep` cookie, and dispatches via `send()` → `sendBeacon` (when opted in) or `pixel()` (an `Image().src` GET).
 - **`datalayer.ts`** — `DataLayerHelper`, a fork of Google's data-layer-helper pattern. It monkey-patches `Array.prototype.push` on the passed-in array so that anything pushed after load is processed live. It maintains an internal merged model, supports command processors (`event`, `plugin`, `set`), plain-object merges, function callbacks, and array-style commands.
-- **`sam.ts`** / **`cli.ts`** — thin entrypoints. `sam.ts` is the browser bundle entry: it grabs/creates `window.sam_data` and instantiates `BrainSam`. `cli.ts` is the node entry (largely a stub).
+- **`sam.ts`** — the browser bundle entrypoint: it grabs/creates `window.sam_data` and instantiates `BrainSam`. This is the only build target (browser-only; `BrainSam`'s constructor reads `document`/`window`, so there is no node entrypoint).
 
 ### Data flow & the `sam_data` contract
 
@@ -41,7 +41,7 @@ The README documents the full host-facing JS API, config options, the pixel quer
 
 Two build paths, both into `dist/` (gitignored):
 - `tsc` → `dist/tsc/` produces type declarations (`package.json` `types` points here).
-- esbuild → `dist/esbuild/sam.js` (minified browser bundle, the `main`/`browser` entry) and `dist/esbuild/cli.js`.
+- esbuild → `dist/esbuild/sam.js` (minified browser bundle, the `main`/`browser` entry).
 
 ## Notes
 
