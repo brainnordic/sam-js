@@ -45,7 +45,7 @@ export class BrainSam {
    * ```
    */
   constructor(data: any) {
-    let that = this;
+    const that = this;
     if(!data.installed) {
       data.installed = true
       this.data_layer = new DataLayerHelper(data, {
@@ -127,11 +127,11 @@ export class BrainSam {
    * Run 100ms inveral detecting observable changes
    */
   watchObservable(){
-    let that = this;
+    const that = this;
 
     if(this.getConfig().observable) {
       this.interval = setInterval(function(){ 
-        let new_value = that.getObservableValue();
+        const new_value = that.getObservableValue();
         if(that.last_observable_value != undefined && new_value != undefined && that.last_observable_value != new_value) {
           that.pageView()
         }
@@ -144,7 +144,7 @@ export class BrainSam {
    * Extract & map pixel data from data layer (user -> u_, domain -> d_, session -> s_, event -> e_, page -> p_)
    */
   getPixelData(){
-    let data = {}
+    const data = {}
 
     const mapped_items:any = {
       user: 'u_', u: 'u_',
@@ -155,7 +155,7 @@ export class BrainSam {
     }
 
     for(const item in mapped_items){
-      for (let [k, v] of Object.entries((this.data_layer.get(item) || {}))) {
+      for (const [k, v] of Object.entries((this.data_layer.get(item) || {}))) {
         data[mapped_items[item]+k] = v;
       }
     }
@@ -178,7 +178,7 @@ export class BrainSam {
    */
   event(event_name: string, obj?: any, callback?: () => void) {
     this.setupDepCookie();
-    let data = Object.assign({}, obj || {}, this.getPixelData());
+    const data = Object.assign({}, obj || {}, this.getPixelData());
 
     // `beacon` is an opt-in flag, never sent to the server
     const use_beacon = this.getConfig().beacon || data.beacon;
@@ -239,7 +239,7 @@ export class BrainSam {
    * @param callback optional callback function called after pixel sucessfully loaded
    */
   pixel(data: any, callback?: () => void) {
-    let pixel = new Image();
+    const pixel = new Image();
     if(callback) {
       pixel.onload = callback;
     }

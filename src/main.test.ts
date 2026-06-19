@@ -6,14 +6,14 @@ import { BrainSam } from './main'
 
 let pixels:string[] = []
 let beacons:string[] = []
-let beacon_supported:boolean = true
-let beacon_result:boolean = true
+let beacon_supported = true
+let beacon_result = true
 const NativeImage = (global as any).Image;
-let ready_state:string = 'completed'
+let ready_state = 'completed'
 let location:any = {}
-let referrer:string = 'https://demo.com/banner1'
+let referrer = 'https://demo.com/banner1'
 let screen:any = {}
-let pixel_ratio:number =  2
+let pixel_ratio =  2
 
 
 beforeAll(() => {
@@ -90,7 +90,7 @@ afterEach(() => {
 
 describe('when auto pageviews are enabled', () => {
   test('BrainSam executes pageview pixel after load', () => {
-    let sam_data:any = []
+    const sam_data:any = []
     new BrainSam(sam_data);
     expect(pixels.length).toBe(1)
     expect(pixels[0]).toContain('n=page_view')
@@ -100,7 +100,7 @@ describe('when auto pageviews are enabled', () => {
   });
 
   test('pageview event is first event executed on loaded dom', () => {
-    let sam_data:any = []
+    const sam_data:any = []
     new BrainSam(sam_data);
     expect(pixels.length).toBe(1)
     expect(pixels[0]).toContain('n=page_view')
@@ -111,9 +111,9 @@ describe('when auto pageviews are enabled', () => {
 
 
   test("BrainSam doesn't execute pageview pixel if dom is still loading ", () => {
-    let sam_data:any = []
+    const sam_data:any = []
     ready_state = 'loading'
-    let brai_sam = new BrainSam(sam_data);
+    const brai_sam = new BrainSam(sam_data);
     expect(pixels.length).toBe(0)
     sam_data.push({event: 'custom_event'})
     expect(pixels.length).toBe(1)
@@ -124,9 +124,9 @@ describe('when auto pageviews are enabled', () => {
 
 
   test("BrainSam executes pageview after dom content is loaded ", () => {
-    let sam_data:any = []
+    const sam_data:any = []
     ready_state = 'loading'
-    let brai_sam = new BrainSam(sam_data);
+    const brai_sam = new BrainSam(sam_data);
     expect(pixels.length).toBe(0)
     document.dispatchEvent(new Event("DOMContentLoaded", {
       bubbles: true,
@@ -141,7 +141,7 @@ describe('when auto pageviews are enabled', () => {
 
 describe('when custom event is pushed to data layer', () => {
    test("BrainSam executes pixel with custom events", () => {
-    let sam_data:any = []
+    const sam_data:any = []
     new BrainSam(sam_data);
     sam_data.push({event: 'custom_event', user_zipcode: '123213', conversion_value: 12.22})
     expect(pixels.length).toBe(2)
@@ -149,7 +149,7 @@ describe('when custom event is pushed to data layer', () => {
   });
 
   test("BrainSam adds custom attributes to request", () => {
-    let sam_data:any = []
+    const sam_data:any = []
     new BrainSam(sam_data);
     sam_data.push({event: 'custom_event', user_zipcode: '123213', conversion_value: 12.22})
     expect(pixels.length).toBe(2)
@@ -160,14 +160,14 @@ describe('when custom event is pushed to data layer', () => {
 
 describe('beacon sending', () => {
   test("does not use beacon by default", () => {
-    let sam_data:any = []
+    const sam_data:any = []
     new BrainSam(sam_data);
     expect(pixels.length).toBe(1)
     expect(beacons.length).toBe(0)
   });
 
   test("uses beacon when enabled via config", () => {
-    let sam_data:any = [{config: {beacon: true}}]
+    const sam_data:any = [{config: {beacon: true}}]
     new BrainSam(sam_data);
     expect(beacons.length).toBe(1)
     expect(pixels.length).toBe(0)
@@ -175,7 +175,7 @@ describe('beacon sending', () => {
   });
 
   test("uses beacon when opted-in via event attribute", () => {
-    let sam_data:any = []
+    const sam_data:any = []
     new BrainSam(sam_data);
     sam_data.push({event: 'custom_event', beacon: true})
     expect(beacons.length).toBe(1)
@@ -184,7 +184,7 @@ describe('beacon sending', () => {
   });
 
   test("does not send the beacon flag to the server", () => {
-    let sam_data:any = []
+    const sam_data:any = []
     new BrainSam(sam_data);
     sam_data.push({event: 'custom_event', beacon: true, user_zipcode: '123213'})
     expect(beacons[0]).not.toContain('beacon')
@@ -193,7 +193,7 @@ describe('beacon sending', () => {
 
   test("falls back to pixel when sendBeacon is unsupported", () => {
     beacon_supported = false
-    let sam_data:any = [{config: {beacon: true}}]
+    const sam_data:any = [{config: {beacon: true}}]
     new BrainSam(sam_data);
     expect(beacons.length).toBe(0)
     expect(pixels.length).toBe(1)
@@ -202,7 +202,7 @@ describe('beacon sending', () => {
 
   test("falls back to pixel when sendBeacon returns false", () => {
     beacon_result = false
-    let sam_data:any = [{config: {beacon: true}}]
+    const sam_data:any = [{config: {beacon: true}}]
     new BrainSam(sam_data);
     expect(beacons.length).toBe(1)
     expect(pixels.length).toBe(1)
@@ -210,7 +210,7 @@ describe('beacon sending', () => {
 });
 
 test("BrainSam executes only once per data layer", () => {
-    let sam_data:any = []
+    const sam_data:any = []
     new BrainSam(sam_data);
     sam_data.push({event: 'custom_event'})
     expect(pixels.length).toBe(2)
@@ -223,7 +223,7 @@ test("BrainSam executes only once per data layer", () => {
 
 describe('BrainSam includes basic location/window data to pageview event', () => {
   beforeEach(() => {
-    let sam_data:any = []
+    const sam_data:any = []
     new BrainSam(sam_data);
   })
 
@@ -255,7 +255,7 @@ describe('BrainSam includes basic location/window data to pageview event', () =>
 
 describe('when tracking browser data is disabled', () => {
   beforeEach(() => {
-    let sam_data:any = [{config: {disable_tracking_browser_data: true}}]
+    const sam_data:any = [{config: {disable_tracking_browser_data: true}}]
     new BrainSam(sam_data);
   })
 
@@ -274,7 +274,7 @@ describe('when tracking browser data is disabled', () => {
 
 describe('when 3rd party cookie is disabled', () => {
   beforeEach(() => {
-    let sam_data:any = [{config: {disable_3rd_party_cookies: true}}]
+    const sam_data:any = [{config: {disable_3rd_party_cookies: true}}]
     new BrainSam(sam_data);
   })
 
@@ -289,8 +289,8 @@ describe('when observable value is defined to "location"', () => {
   })
 
   test("it checks observable value every 100ms", () => {
-    let sam_data:any = [{config: {autoview: false, observable: 'location'}}]
-    let brain_sam = new BrainSam(sam_data);
+    const sam_data:any = [{config: {autoview: false, observable: 'location'}}]
+    const brain_sam = new BrainSam(sam_data);
 
     const callback = jest.fn();
     brain_sam.getObservableValue = callback
@@ -302,7 +302,7 @@ describe('when observable value is defined to "location"', () => {
   })
 
   test("it triggers page view on every page view location change", () => {
-    let sam_data:any = [{config: {observable: 'location'}}]
+    const sam_data:any = [{config: {observable: 'location'}}]
     new BrainSam(sam_data);
     expect(pixels.length).toBe(1)
     expect(pixels[0]).toContain('p_l=https%3A%2F%2Fexample.com%2Fhome_page')
@@ -324,7 +324,7 @@ describe('when observable value is defined to "custom function"', () => {
  
   test("it checks observable value every 100ms", () => {
     const callback = jest.fn();
-    let sam_data:any = [{config: {autoview: false, observable: callback}}]
+    const sam_data:any = [{config: {autoview: false, observable: callback}}]
     new BrainSam(sam_data);
     expect(callback).not.toHaveBeenCalled();
     jest.advanceTimersByTime(100);
@@ -335,7 +335,7 @@ describe('when observable value is defined to "custom function"', () => {
 
   test("it triggers page view on every observable value change", () => {
     let observable_value = 'initial_value'
-    let sam_data:any = [{config: {observable: function() { return observable_value }}}]
+    const sam_data:any = [{config: {observable: function() { return observable_value }}}]
     new BrainSam(sam_data);
 
     sam_data.push({user: {test_data: 'example'}})
@@ -354,7 +354,7 @@ describe('when observable value is defined to "custom function"', () => {
 
 describe('data layer', () => {
   test("it appends any data with user prefix to u_* data points", () => {
-    let sam_data:any = [{user: {test: 'aaa'}}]
+    const sam_data:any = [{user: {test: 'aaa'}}]
     new BrainSam(sam_data);
     expect(pixels[0]).toContain('u_test=aaa')
     sam_data.push({user: {test: 'bbb', test2: 'aaa'}})
@@ -364,7 +364,7 @@ describe('data layer', () => {
   });
 
   test("it appends any data with domain, device, d prefix to d_* data points", () => {
-    let sam_data:any = [{domain: {test: 'aaa'}}]
+    const sam_data:any = [{domain: {test: 'aaa'}}]
     new BrainSam(sam_data);
     expect(pixels[0]).toContain('d_test=aaa')
     sam_data.push({device: {test2: 'bbb'}, 'd.test3': 'www'})
@@ -375,7 +375,7 @@ describe('data layer', () => {
   });
 
   test("it appends any data with session, s prefix to s_* data points", () => {
-    let sam_data:any = [{session: {test: 'aaa'}}]
+    const sam_data:any = [{session: {test: 'aaa'}}]
     new BrainSam(sam_data);
     expect(pixels[0]).toContain('s_test=aaa')
     sam_data.push({session: {test2: 'bbb'}, s: {test3: 'www'}})
@@ -386,7 +386,7 @@ describe('data layer', () => {
   });
 
   test("it appends any data with event, e prefix to e_* data points", () => {
-    let sam_data:any = [{event: {test: 'aaa'}}]
+    const sam_data:any = [{event: {test: 'aaa'}}]
     new BrainSam(sam_data);
     expect(pixels[0]).toContain('e_test=aaa')
     sam_data.push({event: {test2: 'bbb'}, e: {test3: 'www'}})
@@ -397,7 +397,7 @@ describe('data layer', () => {
   });
 
   test("it appends any data with page, p prefix to p_* data points", () => {
-    let sam_data:any = [{page: {test: 'aaa'}}]
+    const sam_data:any = [{page: {test: 'aaa'}}]
     new BrainSam(sam_data);
     expect(pixels[0]).toContain('p_test=aaa')
     sam_data.push({page: {test2: 'bbb'}, p: {test3: 'www'}})
@@ -408,7 +408,7 @@ describe('data layer', () => {
   });
 
   test("it allows to add nested data with dot notation", () => {
-    let sam_data:any = [{page: {test: 'aaa'}}]
+    const sam_data:any = [{page: {test: 'aaa'}}]
     new BrainSam(sam_data);
     expect(pixels[0]).toContain('p_test=aaa')
     sam_data.push({'p.test': 'bbb', 'p.test2': 'ccc'})

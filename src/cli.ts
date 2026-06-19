@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 import { BrainSam } from './main'
 
-let data:any[] = []
+const data:any[] = []
 new BrainSam(data);
