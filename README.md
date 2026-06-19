@@ -14,6 +14,7 @@
     - **observable** - undefined/location/function - trigger page view on each `observable` value change, default: undefined
     - **disable_3rd_party_cookies: true** - disable 3rd party cookie on dep-x.com domain
     - **disable_tracking_browser_data: true** - disable auto-tracking of browser data
+    - **beacon: true** - send events via navigator.sendBeacon (falls back to the pixel if unsupported), default: false
 
 **data layer:**
 
@@ -67,42 +68,19 @@ By default all events are counted in total page views, if you want just send dat
       sam_data.push({event: 'order_completed', e_t: 'nonnavigational', e_amount: 122.22, e_currency: 'USD'})
     </script>
 
-**Event plugins:**
-any external code can register plugin that is listening to all incoming events and has ability to modify data before sending it to server:
+**Plugins:**
+External code can register a plugin function by pushing it to the data layer. The function runs **once**, immediately when it is registered, and receives the data layer helper as its only argument. Use `data_layer.get(scope)` to read the current data layer model (for example `'user'`, `'session'`, `'page'`):
 
 
     <script type="text/javascript">
-    sam_data.push({plugin: function(event_id, event_object, data_layer) {
-     //this function will be called every time when event is about to send
-    
-     if(event_object.event == 'order_completed') {
-       fetch_some_extra_data(event_object.order_id, function(data) {
-         sam_data.push(event_object.merge({e_id: event_id, e_order_status: data.status}))
-         // add extra data to event when available
-       })
+    sam_data.push({plugin: function(data_layer) {
+     // runs once, at registration time
+     var session = data_layer.get('session') || {} // read current data layer values
+
+     // push additional data or wire up your own logic based on the data layer
+     if(!session.campaign) {
+       sam_data.push({session: {campaign: detectCampaign()}})
      }
-     // update data layer before sending event
-     total_amount = data_layer.get('s_total_amount') || 0.0
-     data_layer.set('s_total_amount', total_amount + e.amount)
-     
-     // update event_data
-     event_object.e_date = fetchDate()
-    } })
-    </script>
-
-**Data layer listener:**
-By registering data layer listener you can modify/expand input data before is included in data layer OR trigger custom events based on data layer values
-
-
-    <script type="text/javascript">
-    sam_data.push({processor: function(incoming_data, data_layer) {
-     if(incoming_data.amount) { 
-       total_amount = data_layer.get('s_total_amount') || 0.0
-       return {total_amount: total_amount + incoming_data.amount} 
-       // sam_data.push({amount: 123.00)} - data layer = {total_amount: 123.00}
-       // sam_data.push({amount: 12)} - data layer = {total_amount: 135.00}
-      }
-      // sam_data.push({other: 'abc')} - data layer = {total_amount: 135.00, other: 'abc'}
     } })
     </script>
 
@@ -136,9 +114,9 @@ By registering data layer listener you can modify/expand input data before is in
     11. **p_l** - page location, default: window.location.href
     12. **p_r -** page referrer, default: document.referrer
     13. **p_t** - page title
-    14. **d_pr** - device pixel ratio
-    15. **d_h** - current sceen height, default: window.screen.height
-    16. **d_w** - current sceen width, default: window.screen.height
+    14. **dp_r** - device pixel ratio, default: window.devicePixelRatio
+    15. **p_h** - current screen height, default: window.screen.height
+    16. **p_w** - current screen width, default: window.screen.width
     17. **u_zipcode** - user zipcode
     18. **u_country** - user country, ISO 3166 ALPHA-3 code, default: swe
     19. **u_email** - user email - this is sensitive data, please contact us to establish encryption method
